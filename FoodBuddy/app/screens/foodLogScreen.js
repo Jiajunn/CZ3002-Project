@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 
-import FoodLogCard from "./foodLogCard";
+import FoodLogCard from "../components/foodLogCard";
 
 function FoodLogScreen(props) {
   return (
