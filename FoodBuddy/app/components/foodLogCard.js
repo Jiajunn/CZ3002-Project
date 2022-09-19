@@ -29,9 +29,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     borderRadius: 10,
-    width: "100%",
-    height: "30%",
+    width: 350,
+    height: 150,
     padding: 20,
+    marginBottom: 30,
     shadowColor: "#000000",
     shadowOpacity: 0.8,
     shadowRadius: 2,

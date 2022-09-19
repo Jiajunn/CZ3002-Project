@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { Text, View, StyleSheet, Pressable, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 
 import FoodLogCard from "../components/foodLogCard";
@@ -41,10 +34,14 @@ function FoodLogScreen(props) {
         </Pressable>
       </View>
 
-      <View style={styles.foodLogContainer}>
-        <FoodLogCard />
-        <FoodLogCard />
-        <FoodLogCard />
+      <View style={styles.scroll}>
+        <ScrollView contentContainerStyle={styles.foodLogContainer}>
+          <FoodLogCard />
+          <FoodLogCard />
+          <FoodLogCard />
+          <FoodLogCard />
+          <FoodLogCard />
+        </ScrollView>
       </View>
 
       <Pressable
@@ -64,7 +61,6 @@ function FoodLogScreen(props) {
 
 const styles = StyleSheet.create({
   addFoodButton: {
-    top: 50,
     width: "85%",
     borderRadius: 9,
     paddingVertical: 15,
@@ -78,6 +74,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "10%",
     justifyContent: "flex-end",
+    paddingTop: "5%",
   },
   bannerText: {
     fontSize: 30,
@@ -105,16 +102,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   foodLogContainer: {
-    top: 50,
-    justifyContent: "space-between",
-    width: "85%",
-    height: "60%",
+    paddingTop: 5,
+    paddingHorizontal: 5,
   },
   nutrientButton: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 15,
     paddingHorizontal: 40,
+  },
+  scroll: {
+    marginTop: 50,
+    alignItems: "center",
+    height: "65%",
   },
 });
 export default FoodLogScreen;
