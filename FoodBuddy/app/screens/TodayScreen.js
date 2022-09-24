@@ -5,9 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import FoodLog from "../components/FoodLog";
 import NutrientLog from "../components/NutrientLog";
-import AddMealScreen from "../screens/AddMealScreen";
-import AddMealScreen2 from "../screens/AddMealScreen2";
-import AddMealScreen3 from "../screens/AddMealScreen3";
+import AddMealScreen from "./AddMealScreen";
+import AddMealScreen2 from "./AddMealScreen2";
+import AddMealScreen3 from "./AddMealScreen3";
 
 const Stack = createNativeStackNavigator();
 
