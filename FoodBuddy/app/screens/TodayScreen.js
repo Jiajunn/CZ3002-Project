@@ -34,10 +34,8 @@ function TodayScreen(props) {
       <View style={styles.buttonContainer}>
         <Pressable
           onPress={() => setFood(true)}
-          style={({ pressed }) => [
-            {
-              backgroundColor: pressed ? "#7e6d6d" : "#8C7A7A",
-            },
+          style={[
+            { backgroundColor: food ? "#7e6d6d" : "#E4E0E0" },
             styles.button,
           ]}
         >
@@ -46,10 +44,8 @@ function TodayScreen(props) {
 
         <Pressable
           onPress={() => setFood(false)}
-          style={({ pressed }) => [
-            {
-              backgroundColor: pressed ? "#cec7c7" : "#E4E0E0",
-            },
+          style={[
+            { backgroundColor: !food ? "#7e6d6d" : "#E4E0E0" },
             styles.button,
           ]}
         >

@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useState } from "react";
+import { CheckBox } from "react-native-web";
 
 function AddMealScreen(props) {
   const navigation = useNavigation();
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState("Breakfast");
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
@@ -18,8 +18,59 @@ function AddMealScreen(props) {
         </View>
       </View>
 
+      <View style={styles.questionContainer}>
+        <Text style={{ fontSize: 25 }}>Type of meal:</Text>
+        <Pressable
+          style={[
+            {
+              backgroundColor: selected === "Breakfast" ? "#7f7f7f" : "#E4E0E0",
+            },
+            styles.question,
+          ]}
+          onPress={() => setSelected("Breakfast")}
+        >
+          <Text style={{ fontSize: 20 }}>Breakfast</Text>
+        </Pressable>
+        <Pressable
+          style={[
+            {
+              backgroundColor: selected === "Lunch" ? "#7f7f7f" : "#E4E0E0",
+            },
+            styles.question,
+          ]}
+          onPress={() => setSelected("Lunch")}
+        >
+          <Text style={{ fontSize: 20 }}>Lunch</Text>
+        </Pressable>
+        <Pressable
+          style={[
+            {
+              backgroundColor: selected === "Dinner" ? "#7f7f7f" : "#E4E0E0",
+            },
+            styles.question,
+          ]}
+          onPress={() => setSelected("Dinner")}
+        >
+          <Text style={{ fontSize: 20 }}>Dinner</Text>
+        </Pressable>
+        <Pressable
+          style={[
+            {
+              backgroundColor: selected === "Snack" ? "#7f7f7f" : "#E4E0E0",
+            },
+            styles.question,
+          ]}
+          onPress={() => setSelected("Snack")}
+        >
+          <Text style={{ fontSize: 20 }}>Snack</Text>
+        </Pressable>
+      </View>
+
       <Pressable
-        style={styles.nextButton}
+        style={({ pressed }) => [
+          { backgroundColor: pressed ? "#474a33" : "#8F9467" },
+          styles.nextButton,
+        ]}
         onPress={() => navigation.navigate("AddMeal2")}
       >
         <Text style={{ fontSize: 25, color: "white" }}>NEXT</Text>
@@ -45,10 +96,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "white",
   },
-  choiceContainer: {
-    paddingVertical: "10%",
-    width: "80%",
-  },
   container: {
     flex: 1,
     backgroundColor: "white",
@@ -58,9 +105,20 @@ const styles = StyleSheet.create({
   nextButton: {
     width: 300,
     height: 60,
-    backgroundColor: "#8F9467",
     justifyContent: "center",
     alignItems: "center",
+  },
+  question: {
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    alignItems: "center",
+  },
+  questionContainer: {
+    paddingVertical: "7%",
+    width: "80%",
+    justifyContent: "space-around",
+    height: 300,
   },
 });
 
