@@ -4,7 +4,7 @@ import Foundation from "react-native-vector-icons/Foundation";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import TodayScreen from "../screens/TodayScreen";
+import TodayMain from "../screens/TodayScreen";
 import performanceEvalScreen from "../screens/PerformanceEvalScreen";
 import userProfileScreen from "../screens/UserProfileScreen";
 
@@ -15,7 +15,7 @@ const Tabs = () => {
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen
         name="Today"
-        component={TodayScreen}
+        component={TodayMain}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="today-outline" color={color} size={26} />
