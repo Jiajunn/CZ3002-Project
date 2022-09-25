@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from "react-native-dropdown-picker";
 
 function AddMealScreen(props) {
   const navigation = useNavigation();
+  const route = useRoute();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
@@ -37,16 +38,16 @@ function AddMealScreen(props) {
         setItems={setItems}
         containerStyle={styles.dropDownContainer}
         onSelectItem={(item) => {
-          navigation.navigate("AddMeal3");
+          navigation.navigate("AddMeal3", { name: item, id: 1 });
         }}
       />
 
       <View style={styles.itemContainer}>
         <Text style={{ fontSize: 25 }}>Selected Items:</Text>
-        {selectedItems.map((items) => {
+        {selectedItems.map((items, i) => {
           return (
-            <View style={styles.row}>
-              <Text style={{ fontSize: 15 }}>{items.name}</Text>
+            <View style={styles.row} key={i}>
+              <Text style={{ fontSize: 15 }}>{items.name} </Text>
               <Text style={{ fontSize: 15 }}>{items.quantity}</Text>
             </View>
           );
@@ -101,6 +102,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#8F9467",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 700,
+    position: "absolute",
   },
   row: {
     flexDirection: "row",

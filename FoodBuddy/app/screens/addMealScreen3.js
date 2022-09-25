@@ -1,10 +1,13 @@
-import React from "react";
-import { View, Button, Text, StyleSheet, Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 function AddMealScreen(props) {
   const navigation = useNavigation();
+  const route = useRoute();
+  const [quantity, setQuantity] = useState(1);
+
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
@@ -16,9 +19,47 @@ function AddMealScreen(props) {
         </View>
       </View>
 
+      <View style={styles.textContainer}>
+        <Text style={styles.text}> 2-in-1 coffee powder, with creamer</Text>
+      </View>
+
+      <View style={[styles.textContainer, { height: 350 }]}>
+        <Text style={styles.text}> Values per serving:</Text>
+      </View>
+
+      <View style={styles.counter}>
+        <Text style={styles.text}> Number of servings</Text>
+        <View style={styles.row}>
+          <Pressable
+            onPress={() => {
+              if (quantity <= 1) {
+                setQuantity(1);
+              } else {
+                setQuantity(quantity - 1);
+              }
+            }}
+          >
+            <Text style={styles.text}> - </Text>
+          </Pressable>
+          <Text style={styles.text}> {quantity} </Text>
+          <Pressable
+            onPress={() => {
+              setQuantity(quantity + 1);
+            }}
+          >
+            <Text style={styles.text}> + </Text>
+          </Pressable>
+        </View>
+      </View>
+
       <Pressable
         style={styles.nextButton}
-        onPress={() => navigation.navigate("AddMeal2")}
+        onPress={() =>
+          navigation.navigate({
+            name: "AddMeal2",
+            param: { quantity: quantity },
+          })
+        }
       >
         <Text style={{ fontSize: 25, color: "white" }}>Add 1 food item</Text>
       </Pressable>
@@ -49,13 +90,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
   },
+  counter: {
+    marginTop: "5%",
+    width: "80%",
+  },
+  text: {
+    fontSize: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+  textContainer: {
+    marginTop: "10%",
+    width: "80%",
+    backgroundColor: "#E4E0E0",
+    borderRadius: 6,
+  },
   nextButton: {
-    marginTop: 100,
     width: 300,
     height: 60,
     backgroundColor: "#8F9467",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 700,
+    position: "absolute",
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 3,
   },
 });
 
