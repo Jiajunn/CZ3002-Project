@@ -13,10 +13,8 @@ function AddMealScreen(props) {
     { label: "Apple", value: "apple" },
     { label: "Banana", value: "banana" },
   ]);
-  const [selectedItems, setSelectedItems] = useState([
-    { name: "Apple", quantity: "1" },
-    { name: "Banana", quantity: "2" },
-  ]);
+  const { newMeal } = route.params;
+  console.log(newMeal);
 
   return (
     <View style={styles.container}>
@@ -38,13 +36,16 @@ function AddMealScreen(props) {
         setItems={setItems}
         containerStyle={styles.dropDownContainer}
         onSelectItem={(item) => {
-          navigation.navigate("AddMeal3", { name: item, id: 1 });
+          navigation.navigate("AddMeal3", {
+            newMeal: newMeal,
+            foodName: item.label,
+          });
         }}
       />
 
       <View style={styles.itemContainer}>
         <Text style={{ fontSize: 25 }}>Selected Items:</Text>
-        {selectedItems.map((items, i) => {
+        {newMeal.food.map((items, i) => {
           return (
             <View style={styles.row} key={i}>
               <Text style={{ fontSize: 15 }}>{items.name} </Text>
@@ -56,7 +57,7 @@ function AddMealScreen(props) {
 
       <Pressable
         style={styles.nextButton}
-        onPress={() => navigation.navigate("Today")}
+        onPress={() => navigation.navigate("Today", { newMeal: newMeal })}
       >
         <Text style={{ fontSize: 25, color: "white" }}>Add meal</Text>
       </Pressable>

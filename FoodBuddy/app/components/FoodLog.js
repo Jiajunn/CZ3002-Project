@@ -12,10 +12,6 @@ function FoodLog() {
       <View style={styles.scroll}>
         <ScrollView contentContainerStyle={styles.foodLogContainer}>
           <FoodLogCard />
-          <FoodLogCard />
-          <FoodLogCard />
-          <FoodLogCard />
-          <FoodLogCard />
         </ScrollView>
       </View>
 

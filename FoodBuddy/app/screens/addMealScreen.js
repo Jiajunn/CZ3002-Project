@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { CheckBox } from "react-native-web";
 
 function AddMealScreen(props) {
   const navigation = useNavigation();
   const [selected, setSelected] = useState("Breakfast");
+
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
@@ -31,6 +31,7 @@ function AddMealScreen(props) {
         >
           <Text style={{ fontSize: 20 }}>Breakfast</Text>
         </Pressable>
+
         <Pressable
           style={[
             {
@@ -42,6 +43,7 @@ function AddMealScreen(props) {
         >
           <Text style={{ fontSize: 20 }}>Lunch</Text>
         </Pressable>
+
         <Pressable
           style={[
             {
@@ -53,6 +55,7 @@ function AddMealScreen(props) {
         >
           <Text style={{ fontSize: 20 }}>Dinner</Text>
         </Pressable>
+
         <Pressable
           style={[
             {
@@ -71,7 +74,14 @@ function AddMealScreen(props) {
           { backgroundColor: pressed ? "#474a33" : "#8F9467" },
           styles.nextButton,
         ]}
-        onPress={() => navigation.navigate("AddMeal2")}
+        onPress={() =>
+          navigation.navigate("AddMeal2", {
+            newMeal: {
+              mealType: selected,
+              food: [],
+            },
+          })
+        }
       >
         <Text style={{ fontSize: 25, color: "white" }}>NEXT</Text>
       </Pressable>

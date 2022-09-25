@@ -7,6 +7,7 @@ function AddMealScreen(props) {
   const navigation = useNavigation();
   const route = useRoute();
   const [quantity, setQuantity] = useState(1);
+  const { newMeal, foodName } = route.params;
 
   return (
     <View style={styles.container}>
@@ -20,7 +21,7 @@ function AddMealScreen(props) {
       </View>
 
       <View style={styles.textContainer}>
-        <Text style={styles.text}> 2-in-1 coffee powder, with creamer</Text>
+        <Text style={styles.text}> {foodName} </Text>
       </View>
 
       <View style={[styles.textContainer, { height: 350 }]}>
@@ -54,14 +55,21 @@ function AddMealScreen(props) {
 
       <Pressable
         style={styles.nextButton}
-        onPress={() =>
+        onPress={() => {
+          newMeal.food.push({
+            name: foodName,
+            quantity: quantity,
+          });
           navigation.navigate({
             name: "AddMeal2",
-            param: { quantity: quantity },
-          })
-        }
+            params: { newMeal: newMeal },
+            merge: true,
+          });
+        }}
       >
-        <Text style={{ fontSize: 25, color: "white" }}>Add 1 food item</Text>
+        <Text style={{ fontSize: 25, color: "white" }}>
+          Add {quantity} food item
+        </Text>
       </Pressable>
     </View>
   );
