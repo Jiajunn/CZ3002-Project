@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -9,12 +9,21 @@ function AddMealScreen(props) {
   const route = useRoute();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-  ]);
+  const [items, setItems] = useState([]);
   const { newMeal } = route.params;
-  console.log(newMeal);
+
+  useEffect(() => {
+    fetch("http://192.168.1.117:8080/api/food/allFood")
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        setItems(result);
+      })
+      .catch((err) => {
+        console.log("Aaaaand it is an error: ", err);
+      });
+  });
 
   return (
     <View style={styles.container}>
@@ -28,6 +37,10 @@ function AddMealScreen(props) {
       </View>
 
       <DropDownPicker
+        schema={{
+          label: "food_name",
+          value: "id",
+        }}
         open={open}
         value={value}
         items={items}
@@ -38,7 +51,7 @@ function AddMealScreen(props) {
         onSelectItem={(item) => {
           navigation.navigate("AddMeal3", {
             newMeal: newMeal,
-            foodName: item.label,
+            food: item,
           });
         }}
       />

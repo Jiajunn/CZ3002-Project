@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -7,7 +7,7 @@ function AddMealScreen(props) {
   const navigation = useNavigation();
   const route = useRoute();
   const [quantity, setQuantity] = useState(1);
-  const { newMeal, foodName } = route.params;
+  const { newMeal, food } = route.params;
 
   return (
     <View style={styles.container}>
@@ -21,11 +21,35 @@ function AddMealScreen(props) {
       </View>
 
       <View style={styles.textContainer}>
-        <Text style={styles.text}> {foodName} </Text>
+        <ScrollView>
+          <Text style={styles.text}> {food.food_name} </Text>
+        </ScrollView>
       </View>
 
       <View style={[styles.textContainer, { height: 350 }]}>
-        <Text style={styles.text}> Values per serving:</Text>
+        <ScrollView>
+          <Text style={styles.text}>
+            Values per serving: {"\n"}
+            Calcium, mg : {food.calcium_mg} {"\n"}
+            Carbohydrage, g : {food.carbohydrate_g} {"\n"}
+            Cholesterol, mg : {food.cholesterol_mg} {"\n"}
+            Dietary Fibre, g : {food.dietary_fibre_g} {"\n"}
+            Energy, kcal : {food.energy_kcal} {"\n"}
+            Polyunsaturated Fat, g : {food.polyunsaturated_fat_g} {"\n"}
+            Protein, g : {food.protein_g} {"\n"}
+            Saturated Fat, g : {food.saturated_fat_g} {"\n"}
+            Sodium, mg : {food.sodium_mg} {"\n"}
+            Sugar, g : {food.sugar_g} {"\n"}
+            Total Fat, g : {food.total_fat_g} {"\n"}
+            Trans Fat, mg : {food.trans_fat_mg} {"\n"}
+            Vitamin A, mcg : {food.vitamin_A_mcg} {"\n"}
+            Vitamin B2, mg : {food.vitamin_B2_mg} {"\n"}
+            Vitamin C, mg : {food.vitamin_C_mg} {"\n"}
+            Vitamin D, IU : {food.vitamin_D_IU} {"\n"}
+            Water, g : {food.water_g} {"\n"}
+            Zinc, mg : {food.zinc_mg} {"\n"}
+          </Text>
+        </ScrollView>
       </View>
 
       <View style={styles.counter}>
@@ -57,7 +81,7 @@ function AddMealScreen(props) {
         style={styles.nextButton}
         onPress={() => {
           newMeal.food.push({
-            name: foodName,
+            name: food.food_name,
             quantity: quantity,
           });
           navigation.navigate({
@@ -104,14 +128,16 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    textAlign: "left",
   },
   textContainer: {
     marginTop: "10%",
     width: "80%",
     backgroundColor: "#E4E0E0",
     borderRadius: 6,
+    height: 50,
   },
   nextButton: {
     width: 300,
