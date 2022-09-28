@@ -8,7 +8,13 @@
 
 Following this, you have a few options:
 
-1. Download android studio (for windows) -> follow instruction to set up an android emulator
-2. Download XCode (for Mac)
-3. Download Expo CLI on your phone -> scan QR code with camera to view the webpage
-4. Press w to open the frontend view in the web browser
+Download android studio (for windows) -> follow instruction to set up an android emulator
+<br>
+**OR**
+Download XCode (for Mac)
+<br>
+**OR**
+Download Expo CLI on your phone -> scan QR code with camera to view the webpage
+<br>
+**OR**
+Press w to open the frontend view in the web browser
