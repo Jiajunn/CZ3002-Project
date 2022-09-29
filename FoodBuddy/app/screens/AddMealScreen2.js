@@ -13,7 +13,8 @@ function AddMealScreen(props) {
   const { newMeal } = route.params;
 
   useEffect(() => {
-    fetch("http://192.168.1.117:8080/api/food/allFood")
+    const url = "http://10.27.17.84:8080/api/food/allFood";
+    fetch(url)
       .then((res) => {
         return res.json();
       })
@@ -41,6 +42,8 @@ function AddMealScreen(props) {
           label: "food_name",
           value: "id",
         }}
+        searchable={true}
+        searchPlaceholder="Find your food"
         open={open}
         value={value}
         items={items}
