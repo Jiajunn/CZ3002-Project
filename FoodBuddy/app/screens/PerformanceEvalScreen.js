@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -12,22 +13,49 @@ import {
 } from "react-native";
 import { Card } from "react-native-paper";
 import { LineChart } from "react-native-chart-kit";
+import DropDownPicker from "react-native-dropdown-picker";
+
 
 export default function PerformanceEvalScreen(props) {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Protein', value: 'Protein'},
+    {label: 'Carbo', value: 'Carbo'}
+  ])
   return (
+    
     <View style={styles.container}>
       <View style={styles.banner}>
         <Text style={styles.bannerText}> Perfomance </Text>
       </View>
       <View style={{ flexDirection: "row", marginTop: 20, marginLeft: 35 }}>
-        <Text style={{ fontSize: 27, fontWeight: "bold" }}> Nutrients: </Text>
-        <TouchableOpacity style={styles.inputView}>
+        <Text style={{ fontSize: 27, fontWeight: "bold", marginTop:3 }}> Nutrient: </Text>
+        {/* <TouchableOpacity style={styles.inputView}>
           <TextInput
             style={{ fontSize: 23, fontWeight: "bold", padding: 5 }}
             placeholder="Protein"
             placeholderTextColor="white"
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <DropDownPicker
+          style={styles.dropDownStyle}
+          labelStyle={{color:"white"}}
+          placeholder="Select type of nutrient"
+          placeholderStyle={{color: "white"}}
+          containerStyle={ {width: 190, zIndex:999,}}
+          showArrowIcon={true}
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          closeAfterSelecting={true}
+
+    
+        >
+        </DropDownPicker>
       </View>
       <Card
         style={{
@@ -55,7 +83,7 @@ export default function PerformanceEvalScreen(props) {
         >
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
             {" "}
-            Protein Intake
+            {value ?  value + " Intake" : "Select nutrient type"}
           </Text>
         </View>
         <LineChart
@@ -148,13 +176,15 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     marginBottom: 10,
   },
-  inputView: {
+  dropDownStyle: {
     backgroundColor: "#8F9467",
-    borderRadius: 30,
-    width: 150,
+    borderRadius: 20,
+    width: 190,
     height: 45,
     marginBottom: 20,
+    paddingTop:0,
     alignItems: "center",
+    borderWidth: 0,
   },
   TextInput: {
     height: 50,
