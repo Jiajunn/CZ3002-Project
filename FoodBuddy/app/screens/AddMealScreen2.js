@@ -13,7 +13,7 @@ function AddMealScreen(props) {
   const { newMeal } = route.params;
 
   useEffect(() => {
-    const url = "http://10.27.17.84:8080/api/food/allFood";
+    const url = "http://192.168.50.239:8080/api/food/allFood";
     fetch(url)
       .then((res) => {
         return res.json();
