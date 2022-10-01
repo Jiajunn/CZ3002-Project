@@ -11,9 +11,9 @@ import {
 import { Card } from "react-native-paper";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import registerScreen1 from "./registerScreen1";
-import registerScreen2 from "./registerScreen2";
-import registerScreen3 from "./registerScreen3";
+import registerScreen from "./RegisterScreen";
+import registerScreen2 from "./RegisterScreen2";
+import registerScreen3 from "./RegisterScreen3";
 import { useNavigation } from "@react-navigation/native";
 
 export default function LoginScreen(props) {
@@ -64,16 +64,19 @@ export default function LoginScreen(props) {
           />
         </TouchableOpacity>
       </Card>
-      <TouchableOpacity style={styles.buttonn}>
-        <TextInput style={{ textAlign: "centre", padding: 12, fontSize: 20 }}>
+      <TouchableOpacity
+        style={styles.buttonn}
+        onPress={() => (LoggedIn = true)}
+      >
+        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20 }}>
           Login
-        </TextInput>
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.buttonn}
         onPress={() => navigation.navigate("RegisterScreen1")}
       >
-        Register
+        <Text>Register</Text>
       </TouchableOpacity>
     </View>
   );
@@ -115,5 +118,6 @@ const styles = StyleSheet.create({
     width: 130,
     height: 45,
     backgroundColor: "white",
+    justifyContent: "center",
   },
 });

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Card } from "react-native-paper";
 
-export default function registerScreen2(props) {
+export default function RegisterScreen2(props) {
   return (
     <View style={styles.container}>
       <Card
