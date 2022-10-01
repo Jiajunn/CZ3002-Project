@@ -8,8 +8,7 @@ import global from "./global";
 export default function App() {
   return (
     <NavigationContainer>
-      {!LoggedIn && <LoginScreen />}
-      {LoggedIn && <Tabs />}
+      <LoginScreen></LoginScreen>
     </NavigationContainer>
   );
 }
