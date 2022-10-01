@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -26,21 +26,6 @@ function TodayMain() {
 
 function TodayScreen(props) {
   const [food, setFood] = useState(true);
-  const [todayFood, setTodayFood] = useState();
-  const url =
-    "http://" + IpAddress + ":8080/api/foodLog/" + UserID + "/todayFoodLogs";
-  useEffect(() => {
-    fetch(url)
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setTodayFood(result);
-      })
-      .catch((err) => {
-        console.log("Aaaaand it is an error: ", err);
-      });
-  });
 
   return (
     <View style={styles.container}>
