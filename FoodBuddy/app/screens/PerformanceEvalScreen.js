@@ -15,22 +15,23 @@ import { Card } from "react-native-paper";
 import { LineChart } from "react-native-chart-kit";
 import DropDownPicker from "react-native-dropdown-picker";
 
-
 export default function PerformanceEvalScreen(props) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'Protein', value: 'Protein'},
-    {label: 'Carbo', value: 'Carbo'}
-  ])
+    { label: "Protein", value: "Protein" },
+    { label: "Carbo", value: "Carbo" },
+  ]);
   return (
-    
     <View style={styles.container}>
       <View style={styles.banner}>
         <Text style={styles.bannerText}> Perfomance </Text>
       </View>
       <View style={{ flexDirection: "row", marginTop: 20, marginLeft: 35 }}>
-        <Text style={{ fontSize: 27, fontWeight: "bold", marginTop:3 }}> Nutrient: </Text>
+        <Text style={{ fontSize: 27, fontWeight: "bold", marginTop: 3 }}>
+          {" "}
+          Nutrient:{" "}
+        </Text>
         {/* <TouchableOpacity style={styles.inputView}>
           <TextInput
             style={{ fontSize: 23, fontWeight: "bold", padding: 5 }}
@@ -40,10 +41,10 @@ export default function PerformanceEvalScreen(props) {
         </TouchableOpacity> */}
         <DropDownPicker
           style={styles.dropDownStyle}
-          labelStyle={{color:"white"}}
+          labelStyle={{ color: "white" }}
           placeholder="Select type of nutrient"
-          placeholderStyle={{color: "white"}}
-          containerStyle={ {width: 190, zIndex:999,}}
+          placeholderStyle={{ color: "white" }}
+          containerStyle={{ width: 190, zIndex: 999 }}
           showArrowIcon={true}
           open={open}
           value={value}
@@ -52,10 +53,7 @@ export default function PerformanceEvalScreen(props) {
           setValue={setValue}
           setItems={setItems}
           closeAfterSelecting={true}
-
-    
-        >
-        </DropDownPicker>
+        ></DropDownPicker>
       </View>
       <Card
         style={{
@@ -83,7 +81,7 @@ export default function PerformanceEvalScreen(props) {
         >
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
             {" "}
-            {value ?  value + " Intake" : "Select nutrient type"}
+            {value ? value + " Intake" : "Select nutrient type"}
           </Text>
         </View>
         <LineChart
@@ -182,7 +180,7 @@ const styles = StyleSheet.create({
     width: 190,
     height: 45,
     marginBottom: 20,
-    paddingTop:0,
+    paddingTop: 0,
     alignItems: "center",
     borderWidth: 0,
   },
