@@ -77,7 +77,7 @@ function AddMealScreen(props) {
         onPress={() =>
           navigation.navigate("AddMeal2", {
             newMeal: {
-              mealType: selected,
+              type_of_meal: selected,
               food: [],
             },
           })

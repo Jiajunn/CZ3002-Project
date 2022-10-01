@@ -1,17 +1,102 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Pressable, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 
 import FoodLogCard from "./FoodLogCard";
 
+function sortFood(todayFood) {
+  var datetime = new Date(todayFood[0].datetime);
+  var i = 0;
+  var date = datetime.toLocaleDateString();
+  var foodLog = [];
+  var breakfast = [];
+  var lunch = [];
+  var dinner = [];
+  var snack = [];
+  for (let i = 0; i < todayFood.length; i++) {
+    switch (todayFood[i].type_of_meal) {
+      case "Breakfast":
+        breakfast.push({
+          food_name: todayFood[i].food_name,
+          no_of_servings: todayFood[i].no_of_servings,
+        });
+        break;
+      case "Lunch":
+        lunch.push({
+          food_name: todayFood[i].food_name,
+          no_of_servings: todayFood[i].no_of_servings,
+        });
+        break;
+      case "Dinner":
+        dinner.push({
+          food_name: todayFood[i].food_name,
+          no_of_servings: todayFood[i].no_of_servings,
+        });
+        break;
+      case "Snack":
+        snack.push({
+          food_name: todayFood[i].food_name,
+          no_of_servings: todayFood[i].no_of_servings,
+        });
+        break;
+    }
+  }
+  if (breakfast.length != 0) {
+    foodLog.push(
+      <FoodLogCard
+        type_of_meal="Breakfast"
+        food={breakfast}
+        date={date}
+        key={i}
+      />
+    );
+    i++;
+  }
+  if (lunch.length != 0) {
+    foodLog.push(
+      <FoodLogCard type_of_meal="Lunch" food={lunch} date={date} key={i} />
+    );
+    i++;
+  }
+  if (dinner.length != 0) {
+    foodLog.push(
+      <FoodLogCard type_of_meal="Dinner" food={dinner} date={date} key={i} />
+    );
+    i++;
+  }
+  if (snack.length != 0) {
+    foodLog.push(
+      <FoodLogCard type_of_meal="Snack" food={snack} date={date} key={i} />
+    );
+    i++;
+  }
+  return foodLog;
+}
+
 function FoodLog() {
   const navigation = useNavigation();
+  const [todayFood, setTodayFood] = useState();
+  const url =
+    "http://" + IpAddress + ":8080/api/foodLog/" + UserID + "/todayFoodLogs";
+  useEffect(() => {
+    fetch(url)
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        setTodayFood(sortFood(result));
+      })
+      .catch((err) => {
+        console.log("Aaaaand it is an error: ", err);
+      });
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.scroll}>
         <ScrollView contentContainerStyle={styles.foodLogContainer}>
-          <FoodLogCard />
+          {todayFood}
         </ScrollView>
       </View>
 
