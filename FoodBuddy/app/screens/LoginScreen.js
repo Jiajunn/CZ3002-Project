@@ -17,9 +17,27 @@ import registerScreen2 from "./RegisterScreen2";
 import registerScreen3 from "./RegisterScreen3";
 import { useNavigation } from "@react-navigation/native";
 
-export default function LoginScreen(props) {
+
+const Stack = createNativeStackNavigator();
+
+function LoginScreenStack() {
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="RegisterScreen" component={registerScreen} />
+        <Stack.Screen name="RegisterScreen2" component={registerScreen2} />
+        <Stack.Screen name="RegisterScreen3" component={registerScreen3} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+
+function LoginScreen(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -127,3 +145,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+export default LoginScreenStack;
