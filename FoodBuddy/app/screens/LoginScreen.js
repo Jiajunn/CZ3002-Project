@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useContext} from "react";
 import {
   Text,
   View,
@@ -16,6 +16,7 @@ import registerScreen from "./RegisterScreen";
 import registerScreen2 from "./RegisterScreen2";
 import registerScreen3 from "./RegisterScreen3";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../contexts/AuthContext";
 
 
 const Stack = createNativeStackNavigator();
@@ -38,7 +39,7 @@ function LoginScreen(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
-
+  const {login} = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text style={styles.paragraph}>Food Buddy</Text>
@@ -94,7 +95,7 @@ function LoginScreen(props) {
       </Card>
       <TouchableOpacity
         style={styles.buttonn}
-        onPress={() => (LoggedIn = true)}
+        onPress={() => {login()}}
       >
         <Text style={{ textAlign: "centre", padding: 12, fontSize: 20, fontWeight:500}}>
           Login
