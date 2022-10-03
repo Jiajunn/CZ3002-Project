@@ -97,7 +97,7 @@ function LoginScreen(props) {
         style={styles.buttonn}
         onPress={() => {login()}}
       >
-        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20, fontWeight:500}}>
+        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20, fontWeight:'500'}}>
           Login
         </Text>
       </TouchableOpacity>
@@ -105,7 +105,7 @@ function LoginScreen(props) {
         style={styles.buttonn}
         onPress={() => navigation.navigate("RegisterScreen")}
       >
-        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20, fontWeight:500}}>Register</Text>
+        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20, fontWeight:'500'}}>Register</Text>
       </TouchableOpacity>
     </View>
   );
