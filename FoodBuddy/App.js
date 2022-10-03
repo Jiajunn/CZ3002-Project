@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-
-import Tabs from "./app/components/Tabs";
-import LoginScreen from "./app/screens/LoginScreen";
-import global from "./global";
+import React from "react";
+import { AuthProvider } from "./app/contexts/AuthContext";
+import { Router } from "./app/routes/Router";
 
 export default function App() {
+
+  
   return (
-    <NavigationContainer>
-      {!LoggedIn && <LoginScreen />}
-      {LoggedIn && <Tabs />}
-    </NavigationContainer>
+    <AuthProvider>
+      <Router></Router>
+    </AuthProvider>
+    
   );
 }

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useContext} from "react";
 import {
   Text,
   View,
@@ -15,8 +16,30 @@ import registerScreen from "./RegisterScreen";
 import registerScreen2 from "./RegisterScreen2";
 import registerScreen3 from "./RegisterScreen3";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../contexts/AuthContext";
 
-export default function LoginScreen(props) {
+
+const Stack = createNativeStackNavigator();
+
+function LoginScreenStack() {
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="RegisterScreen" component={registerScreen} />
+        <Stack.Screen name="RegisterScreen2" component={registerScreen2} />
+        <Stack.Screen name="RegisterScreen3" component={registerScreen3} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+
+function LoginScreen(props) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigation = useNavigation();
+  const {login} = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text style={styles.paragraph}>Food Buddy</Text>
@@ -35,7 +58,7 @@ export default function LoginScreen(props) {
           alignItems: "center",
           marginLeft: 30,
           marginRight: 30,
-          borderRadius: 20,
+          borderRadius: 10,
           paddingBottom: 50,
         }}
       >
@@ -45,6 +68,7 @@ export default function LoginScreen(props) {
             fontSize: 30,
             textAlign: "center",
             marginBottom: 80,
+            fontWeight:500
           }}
         >
           Welcome
@@ -54,6 +78,8 @@ export default function LoginScreen(props) {
             style={styles.TextInput}
             placeholder="Username"
             placeholderTextColor="#003f5c"
+            value= {username}
+            onChangeText={setUsername}
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.inputView}>
@@ -61,22 +87,25 @@ export default function LoginScreen(props) {
             style={styles.TextInput}
             placeholder="Password"
             placeholderTextColor="#003f5c"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
           />
         </TouchableOpacity>
       </Card>
       <TouchableOpacity
         style={styles.buttonn}
-        onPress={() => (LoggedIn = true)}
+        onPress={() => {login()}}
       >
-        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20 }}>
+        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20, fontWeight:500}}>
           Login
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.buttonn}
-        onPress={() => navigation.navigate("RegisterScreen1")}
+        onPress={() => navigation.navigate("RegisterScreen")}
       >
-        <Text>Register</Text>
+        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20, fontWeight:500}}>Register</Text>
       </TouchableOpacity>
     </View>
   );
@@ -90,8 +119,6 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   inputView: {
-    backgroundColor: "#F3EDED",
-    borderRadius: 30,
     width: 200,
     height: 45,
     marginBottom: 20,
@@ -104,20 +131,20 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    marginLeft: 20,
+    textAlign: "center",
+    borderBottomWidth: 1
   },
   buttonn: {
     alignItems: "center",
-    marginTop: 20,
-    marginLeft: 120,
+    marginTop: 10,
+    marginLeft: 30,
     marginRight: 30,
-    borderRadius: 20,
-    width: 130,
+    borderRadius: 10,
+    width: 338,
     height: 45,
     backgroundColor: "white",
     justifyContent: "center",
   },
 });
+
+export default LoginScreenStack;
