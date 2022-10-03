@@ -5,7 +5,12 @@ import Entypo from "react-native-vector-icons/Entypo";
 
 function FoodLogCard(props) {
   const [clicked, setClicked] = useState(false);
-  const firstTwo = [props.food[0], props.food[1]];
+  var firstTwo = [];
+  if (props.food.length > 1) {
+    firstTwo = [props.food[0], props.food[1]];
+  } else {
+    firstTwo = [props.food[0]];
+  }
 
   return (
     <View elevation={5} style={styles.container}>

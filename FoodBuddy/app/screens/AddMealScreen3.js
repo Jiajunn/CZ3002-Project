@@ -8,6 +8,7 @@ function AddMealScreen(props) {
   const route = useRoute();
   const [quantity, setQuantity] = useState(1);
   const { newMeal, food } = route.params;
+  const keys = Object.keys(food).slice(5);
 
   return (
     <View style={styles.container}>
@@ -28,27 +29,21 @@ function AddMealScreen(props) {
 
       <View style={[styles.textContainer, { height: 350 }]}>
         <ScrollView>
-          <Text style={styles.text}>
-            Values per serving: {"\n"}
-            Calcium, mg : {food.calcium_mg} {"\n"}
-            Carbohydrage, g : {food.carbohydrate_g} {"\n"}
-            Cholesterol, mg : {food.cholesterol_mg} {"\n"}
-            Dietary Fibre, g : {food.dietary_fibre_g} {"\n"}
-            Energy, kcal : {food.energy_kcal} {"\n"}
-            Polyunsaturated Fat, g : {food.polyunsaturated_fat_g} {"\n"}
-            Protein, g : {food.protein_g} {"\n"}
-            Saturated Fat, g : {food.saturated_fat_g} {"\n"}
-            Sodium, mg : {food.sodium_mg} {"\n"}
-            Sugar, g : {food.sugar_g} {"\n"}
-            Total Fat, g : {food.total_fat_g} {"\n"}
-            Trans Fat, mg : {food.trans_fat_mg} {"\n"}
-            Vitamin A, mcg : {food.vitamin_A_mcg} {"\n"}
-            Vitamin B2, mg : {food.vitamin_B2_mg} {"\n"}
-            Vitamin C, mg : {food.vitamin_C_mg} {"\n"}
-            Vitamin D, IU : {food.vitamin_D_IU} {"\n"}
-            Water, g : {food.water_g} {"\n"}
-            Zinc, mg : {food.zinc_mg} {"\n"}
-          </Text>
+          <Text style={styles.text}>Values per serving:</Text>
+
+          {keys.map((key, index) => {
+            const keyArr = key.split("_");
+            const unit = keyArr[keyArr.length - 1];
+            const nutrient = keyArr.slice(0, keyArr.length - 1).join(" ");
+            return (
+              <View style={styles.row} key={index}>
+                <Text style={{ fontSize: 18 }}>{nutrient} </Text>
+                <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                  {food[key]} {unit}
+                </Text>
+              </View>
+            );
+          })}
         </ScrollView>
       </View>
 
@@ -151,7 +146,8 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 3,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
   },
 });
 
