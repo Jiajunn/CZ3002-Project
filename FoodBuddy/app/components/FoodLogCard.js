@@ -5,6 +5,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 
 function FoodLogCard(props) {
   const [clicked, setClicked] = useState(false);
+  const firstTwo = [props.food[0], props.food[1]];
 
   return (
     <View elevation={5} style={styles.container}>
@@ -27,34 +28,36 @@ function FoodLogCard(props) {
               </Pressable>
             </View>
             <View style={{ paddingHorizontal: 15 }}>
-              <Text style={styles.title}>Breakfast - 25/08/2022 </Text>
+              <Text style={styles.title}>
+                {props.type_of_meal} - {props.date}
+              </Text>
 
-              <View style={styles.row}>
-                <Text>Burger, Big Mac, MdDonalds’</Text>
-                <Text>x1</Text>
-              </View>
-
-              <View style={styles.row}>
-                <Text>2-in-1 coffee powder, with creamer </Text>
-                <Text>x1</Text>
-              </View>
+              {props.food.map((item, i) => {
+                return (
+                  <View style={styles.row} key={i}>
+                    <Text>{item.food_name}</Text>
+                    <Text>x{item.no_of_servings}</Text>
+                  </View>
+                );
+              })}
             </View>
           </View>
         </View>
       </Modal>
 
       <View style={styles.textContainer}>
-        <Text style={styles.title}>Breakfast - 25/08/2022 </Text>
+        <Text style={styles.title}>
+          {props.type_of_meal} - {props.date}
+        </Text>
 
-        <View style={styles.row}>
-          <Text>Burger, Big Mac, MdDonalds’</Text>
-          <Text>x1</Text>
-        </View>
-
-        <View style={styles.row}>
-          <Text>2-in-1 coffee powder, with creamer </Text>
-          <Text>x1</Text>
-        </View>
+        {firstTwo.map((item, i) => {
+          return (
+            <View style={styles.row} key={i}>
+              <Text>{item.food_name}</Text>
+              <Text>x{item.no_of_servings}</Text>
+            </View>
+          );
+        })}
 
         <Pressable
           onPress={() => {

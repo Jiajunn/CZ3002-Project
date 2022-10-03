@@ -81,8 +81,8 @@ function AddMealScreen(props) {
         style={styles.nextButton}
         onPress={() => {
           newMeal.food.push({
-            name: food.food_name,
-            quantity: quantity,
+            foodname: food.food_name,
+            no_of_servings: quantity,
           });
           navigation.navigate({
             name: "AddMeal2",

@@ -26,6 +26,7 @@ function TodayMain() {
 
 function TodayScreen(props) {
   const [food, setFood] = useState(true);
+
   return (
     <View style={styles.container}>
       <View style={styles.banner}>

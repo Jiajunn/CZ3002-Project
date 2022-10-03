@@ -13,9 +13,7 @@ function AddMealScreen(props) {
   const { newMeal } = route.params;
 
   useEffect(() => {
-    //NTU ip = 10.27.17.84
-    //JJ house ip = 192.168.1.117 
-    const url = "http://192.168.50.239:8080/api/food/allFood";
+    const url = "http://" + IpAddress + ":8080/api/food/allFood";
     fetch(url)
       .then((res) => {
         return res.json();
@@ -66,8 +64,8 @@ function AddMealScreen(props) {
         {newMeal.food.map((items, i) => {
           return (
             <View style={styles.row} key={i}>
-              <Text style={{ fontSize: 15 }}>{items.name} </Text>
-              <Text style={{ fontSize: 15 }}>{items.quantity}</Text>
+              <Text style={{ fontSize: 15 }}>{items.foodname} </Text>
+              <Text style={{ fontSize: 15 }}>{items.no_of_servings}</Text>
             </View>
           );
         })}
@@ -75,7 +73,29 @@ function AddMealScreen(props) {
 
       <Pressable
         style={styles.nextButton}
-        onPress={() => navigation.navigate("Today", { newMeal: newMeal })}
+        onPress={() => {
+          navigation.navigate("Today", { newMeal: newMeal });
+          url =
+            "http://" +
+            IpAddress +
+            ":8080/api/foodLog/" +
+            UserID +
+            "/addFoodLog";
+          const meal_type = newMeal.type_of_meal;
+          newMeal.food.map((items, i) => {
+            fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                foodname: items.foodname,
+                no_of_servings: items.no_of_servings,
+                type_of_meal: meal_type,
+              }),
+            }).catch((err) => console.log("Post error " + err));
+          });
+        }}
       >
         <Text style={{ fontSize: 25, color: "white" }}>Add meal</Text>
       </Pressable>
