@@ -34,7 +34,7 @@ function LoginScreenStack() {
 }
 
 function LoginScreen(props) {
-  const [username, setUsername] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const { login } = useContext(AuthContext);
@@ -75,8 +75,8 @@ function LoginScreen(props) {
             style={styles.TextInput}
             placeholder="Username"
             placeholderTextColor="#003f5c"
-            value={username}
-            onChangeText={setUsername}
+            value={usernameOrEmail}
+            onChangeText={setUsernameOrEmail}
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.inputView}>
@@ -93,7 +93,7 @@ function LoginScreen(props) {
       <TouchableOpacity
         style={styles.buttonn}
         onPress={() => {
-          login();
+          login(usernameOrEmail, password);
         }}
       >
         <Text
