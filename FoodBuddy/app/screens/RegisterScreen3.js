@@ -9,8 +9,18 @@ import {
   Button,
 } from "react-native";
 import { Card } from "react-native-paper";
+import { useState } from "react";
+import CustomCheckBox from "../components/CustomCheckBox";
 
 export default function RegisterScreen3(props) {
+  const [smoking, setSmoking] = useState(false);
+  const [smokingString, setSmokingString] = useState("noo")
+  const handleClick =(textValue, setCheckbox, isChecked)=>{
+    if(textValue!= smokingString){
+      setSmokingString(textValue)
+      setCheckbox(!isChecked)
+    }
+  }
   return (
     <View style={styles.container}>
       <Card
@@ -43,7 +53,7 @@ export default function RegisterScreen3(props) {
         Smoking Habits
       </Text>
       <Text style={{ fontSize: 20, marginLeft: 20, marginBottom: 10 }}>
-        Do you smoke?
+        Do you smoke? {smokingString}
       </Text>
       <View
         style={{
@@ -53,22 +63,10 @@ export default function RegisterScreen3(props) {
           marginLeft: 10,
         }}
       >
-        <TouchableOpacity style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Yes"
-            placeholderTextColor="#003f5c"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="No"
-            placeholderTextColor="#003f5c"
-          />
-        </TouchableOpacity>
+        <CustomCheckBox textValue="Yes" isChecked={smoking} setCheckbox={setSmoking} handleClick={handleClick}></CustomCheckBox>
+        <CustomCheckBox textValue="No" isChecked={!smoking} setCheckbox={setSmoking} handleClick={handleClick}></CustomCheckBox>
       </View>
-      <Text
+      {/* <Text
         style={{
           fontSize: 25,
           marginLeft: 20,
@@ -103,7 +101,7 @@ export default function RegisterScreen3(props) {
             placeholderTextColor="#003f5c"
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
       <TouchableOpacity
         style={{
           backgroundColor: "#8F9467",

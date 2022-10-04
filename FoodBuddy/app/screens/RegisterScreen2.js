@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Text,
   View,
@@ -10,10 +11,26 @@ import {
 } from "react-native";
 import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+import CustomCheckBox from "../components/CustomCheckBox";
 
 export default function RegisterScreen2(props) {
   const navigation = useNavigation();
+  // const [none, setNone] = useState(false)
+  const [arthritis, setArthritis] = useState(false)
+  const [cancer, setCancer] = useState(false)
+  const [alzeimers, setAlzeimers] = useState(false)
+  const [osteoporosis, setOsteoporosis] = useState(false)
+  const [diabeties, setDiabeties] = useState(false)
+  const [heartDiesease, setHeartDisease] = useState(false)
+  const [respiratoryDiesease, setRespiratoryDisease] = useState(false)
+  const [obesity, setObesity] = useState(false)
+  const [diseaseArray, setDiseaseArray] = useState([])
+
+  const handleClick =(textValue, setCheckbox, isChecked)=>{
+     diseaseArray.includes(textValue) ? setDiseaseArray(diseaseArray => diseaseArray.filter(i=> i !=textValue)) : setDiseaseArray([...diseaseArray, textValue]);
+     setCheckbox(!isChecked);
+  }
+
   return (
     <View style={styles.container}>
       <Card
@@ -48,83 +65,18 @@ export default function RegisterScreen2(props) {
         </Text>
         <Text style={{ fontSize: 17, marginLeft: 20, marginBottom: 10 }}>
           You may choose more than 1 option
+          {diseaseArray}
         </Text>
         <View style={{ marginLeft: 20 }}>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="None"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Arthritis"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Cancer"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Alzheimers"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Osteoporosis"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Diabetes"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Heart Disease"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Respiratory Disease"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Obesity"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <BouncyCheckbox
-            style={
-              styles.inputView
-            }
-            size={0}
-            text="Custom Checkbox"
-            textStyle={styles.TextInput}
-            onPress={()=>{
-              
-            }}
-          />
-
+          {/* <CustomCheckBox textValue="None" isChecked={none} setNone={setNone}></CustomCheckBox> */}
+          <CustomCheckBox handleClick={handleClick} isChecked={cancer} setCheckbox={setCancer}textValue="Cancer" ></CustomCheckBox>
+          <CustomCheckBox handleClick={handleClick} isChecked={alzeimers} setCheckbox={setAlzeimers}textValue="Alzeimers"></CustomCheckBox>
+          <CustomCheckBox handleClick={handleClick} isChecked={osteoporosis} setCheckbox={setOsteoporosis}textValue="Osteoporosis"></CustomCheckBox>
+          <CustomCheckBox handleClick={handleClick} isChecked={diabeties} setCheckbox={setDiabeties}textValue="Diabetes"></CustomCheckBox>
+          <CustomCheckBox handleClick={handleClick} isChecked={heartDiesease} setCheckbox={setHeartDisease}textValue="Heart Disease"></CustomCheckBox>
+          <CustomCheckBox handleClick={handleClick} isChecked={respiratoryDiesease} setCheckbox={setRespiratoryDisease}textValue="Respiratory Disease"></CustomCheckBox>
+          <CustomCheckBox handleClick={handleClick} isChecked={obesity} setCheckbox={setObesity}textValue="Obesity"></CustomCheckBox>
+          <CustomCheckBox handleClick={handleClick} isChecked={arthritis} setCheckbox={setArthritis}textValue="Arthritis" ></CustomCheckBox>
 
           <TouchableOpacity
             style={{
@@ -153,21 +105,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     padding: 0,
-  },
-  inputView: {
-    backgroundColor: "white",
-    borderRadius: 30,
-    width: 235,
-    height: 45,
-    marginBottom: 10,
-    alignItems: "left",
-    borderWidth: 3,
-  },
-  TextInput: {
-    height: 50,
-    fontSize: 20,
-    flex: 1,
-    padding: 8,
-    marginLeft: 20,
-  },
+    },
 });

@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import * as React from "react";
 import {
   Text,
@@ -12,6 +13,23 @@ import { Card } from "react-native-paper";
 
 export default function RegisterScreen(props) {
   const navigation = useNavigation();
+  const [newUser, setUser] = useState({ 
+    username: "", 
+    email: "", 
+    password: "", 
+    firstName: "", 
+    lastName: "", 
+    height: "", 
+    weight: "", 
+    date: "", 
+    gender: "", 
+    chronicDiseases: "", 
+    smokingStatus: "" 
+  })
+
+  const handleChange = (name) =>(value) => {
+  }
+  
   return (
     <View style={styles.container}>
       <Card
@@ -47,6 +65,7 @@ export default function RegisterScreen(props) {
         <View style={{ marginLeft: 40 }}>
           <TouchableOpacity style={styles.inputView}>
             <TextInput
+              onChange={handleChange("title")}
               style={styles.TextInput}
               placeholder="Username"
               placeholderTextColor="#003f5c"
@@ -61,6 +80,7 @@ export default function RegisterScreen(props) {
           </TouchableOpacity>
           <TouchableOpacity style={styles.inputView}>
             <TextInput
+
               style={styles.TextInput}
               placeholder="Weight(kg)"
               placeholderTextColor="#003f5c"
@@ -68,6 +88,7 @@ export default function RegisterScreen(props) {
           </TouchableOpacity>
           <TouchableOpacity style={styles.inputView}>
             <TextInput
+
               style={styles.TextInput}
               placeholder="Height(cm)"
               placeholderTextColor="#003f5c"
@@ -75,6 +96,7 @@ export default function RegisterScreen(props) {
           </TouchableOpacity>
           <TouchableOpacity style={styles.inputView}>
             <TextInput
+
               style={styles.TextInput}
               placeholder="Birth date"
               placeholderTextColor="#003f5c"
@@ -82,6 +104,7 @@ export default function RegisterScreen(props) {
           </TouchableOpacity>
           <TouchableOpacity style={styles.inputView}>
             <TextInput
+
               style={styles.TextInput}
               placeholder=" Gender"
               placeholderTextColor="#003f5c"
