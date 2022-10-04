@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function RegisterScreen2(props) {
   const navigation = useNavigation();
@@ -112,6 +113,18 @@ export default function RegisterScreen2(props) {
               placeholderTextColor="#003f5c"
             />
           </TouchableOpacity>
+          <BouncyCheckbox
+            style={
+              styles.inputView
+            }
+            size={0}
+            text="Custom Checkbox"
+            textStyle={styles.TextInput}
+            onPress={()=>{
+              
+            }}
+          />
+
 
           <TouchableOpacity
             style={{
