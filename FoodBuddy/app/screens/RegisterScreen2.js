@@ -9,8 +9,10 @@ import {
   Button,
 } from "react-native";
 import { Card } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 
 export default function RegisterScreen2(props) {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Card
@@ -118,12 +120,14 @@ export default function RegisterScreen2(props) {
               height: 45,
               marginTop: 30,
             }}
+            onPress={()=> {navigation.navigate("RegisterScreen3")}}
           >
-            <TextInput
-              style={{ textAlign: "center", height: 50, fontSize: 20, flex: 1 }}
-              placeholder="NEXT"
-              placeholderTextColor="white"
-            />
+            <Text
+              style={{ textAlign: "center", height: 50, fontSize: 20, flex: 1, color:"white", marginTop:8 }}
+              // placeholder="NEXT"
+              // placeholderTextColor="white"
+            > NEXT
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
