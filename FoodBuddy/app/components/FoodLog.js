@@ -88,7 +88,7 @@ function FoodLog() {
         setTodayFood(sortFood(result));
       })
       .catch((err) => {
-        console.log("Aaaaand it is an error: ", err);
+        console.log("No food added today maybe? orr", err);
       });
   });
 

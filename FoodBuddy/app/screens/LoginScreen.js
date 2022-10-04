@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useContext} from "react";
+import { useState, useContext } from "react";
 import {
   Text,
   View,
@@ -18,7 +18,6 @@ import registerScreen3 from "./RegisterScreen3";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../contexts/AuthContext";
 
-
 const Stack = createNativeStackNavigator();
 
 function LoginScreenStack() {
@@ -34,12 +33,11 @@ function LoginScreenStack() {
   );
 }
 
-
 function LoginScreen(props) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigation = useNavigation();
-  const {login} = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text style={styles.paragraph}>Food Buddy</Text>
@@ -68,7 +66,6 @@ function LoginScreen(props) {
             fontSize: 30,
             textAlign: "center",
             marginBottom: 80,
-            fontWeight:500
           }}
         >
           Welcome
@@ -78,7 +75,7 @@ function LoginScreen(props) {
             style={styles.TextInput}
             placeholder="Username"
             placeholderTextColor="#003f5c"
-            value= {username}
+            value={username}
             onChangeText={setUsername}
           />
         </TouchableOpacity>
@@ -95,9 +92,17 @@ function LoginScreen(props) {
       </Card>
       <TouchableOpacity
         style={styles.buttonn}
-        onPress={() => {login()}}
+        onPress={() => {
+          login();
+        }}
       >
-        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20, fontWeight:'500'}}>
+        <Text
+          style={{
+            textAlign: "centre",
+            padding: 12,
+            fontSize: 20,
+          }}
+        >
           Login
         </Text>
       </TouchableOpacity>
@@ -105,7 +110,15 @@ function LoginScreen(props) {
         style={styles.buttonn}
         onPress={() => navigation.navigate("RegisterScreen")}
       >
-        <Text style={{ textAlign: "centre", padding: 12, fontSize: 20, fontWeight:'500'}}>Register</Text>
+        <Text
+          style={{
+            textAlign: "centre",
+            padding: 12,
+            fontSize: 20,
+          }}
+        >
+          Register
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -132,7 +145,7 @@ const styles = StyleSheet.create({
   },
   TextInput: {
     textAlign: "center",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   buttonn: {
     alignItems: "center",
