@@ -10,10 +10,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Card } from "react-native-paper";
+import CustomTextField from "../components/CustomTextField";
 
 export default function RegisterScreen(props) {
   const navigation = useNavigation();
-  const [newUser, setUser] = useState({ 
+  const [user, setUser] = useState({ 
     username: "", 
     email: "", 
     password: "", 
@@ -27,7 +28,10 @@ export default function RegisterScreen(props) {
     smokingStatus: "" 
   })
 
-  const handleChange = (name) =>(value) => {
+  const handleChange=(text, name)=> {
+    console.log(text, name);
+    setUser(prev=> ({...prev, [name]: text}))
+    console.log(user)
   }
   
   return (
@@ -63,14 +67,7 @@ export default function RegisterScreen(props) {
           Personal Information
         </Text>
         <View style={{ marginLeft: 40 }}>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              onChange={handleChange("title")}
-              style={styles.TextInput}
-              placeholder="Username"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
+          <CustomTextField name="username" placeholder="Username" value={user.username} onChangeText={handleChange}/>
           <TouchableOpacity style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
