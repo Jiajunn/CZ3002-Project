@@ -1,5 +1,6 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Pressable } from "react-native";
 import {
   Text,
   View,
@@ -12,10 +13,11 @@ import {
 import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import CustomCheckBox from "../components/CustomCheckBox";
+import { RegisterContext } from "../contexts/RegisterContext";
 
-export default function RegisterScreen2(props) {
+export default function RegisterScreen2({route}) {
   const navigation = useNavigation();
-  // const [none, setNone] = useState(false)
+  const {user} = useContext(RegisterContext);
   const [arthritis, setArthritis] = useState(false)
   const [cancer, setCancer] = useState(false)
   const [alzeimers, setAlzeimers] = useState(false)
@@ -41,16 +43,22 @@ export default function RegisterScreen2(props) {
           marginBottom: 40,
         }}
       >
-        <Text
-          style={{
-            fontSize: 26,
-            marginTop: 87,
-            marginLeft: 100,
-            color: "white",
-          }}
-        >
-          Back
-        </Text>
+        <Pressable
+          onPress={()=>{
+            navigation.navigate("RegisterScreen")
+          }}>
+          <Text
+            style={{
+              fontSize: 26,
+              marginTop: 87,
+              marginLeft: 100,
+              color: "white",
+            }}
+          >
+            Back
+          </Text>
+        </Pressable>
+        
       </Card>
       <View>
         <Text
@@ -85,12 +93,13 @@ export default function RegisterScreen2(props) {
               height: 45,
               marginTop: 30,
             }}
-            onPress={()=> {navigation.navigate("RegisterScreen3")}}
+            onPress={()=> {
+              user.chronicDiseases= diseaseArray.toString();
+              navigation.navigate("RegisterScreen3");
+            }}
           >
             <Text
               style={{ textAlign: "center", height: 50, fontSize: 20, flex: 1, color:"white", marginTop:8 }}
-              // placeholder="NEXT"
-              // placeholderTextColor="white"
             > NEXT
             </Text>
           </TouchableOpacity>

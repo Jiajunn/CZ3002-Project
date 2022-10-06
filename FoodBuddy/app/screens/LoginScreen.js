@@ -17,12 +17,13 @@ import registerScreen2 from "./RegisterScreen2";
 import registerScreen3 from "./RegisterScreen3";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../contexts/AuthContext";
-
+import { RegisterProvider } from "../contexts/RegisterContext";
 const Stack = createNativeStackNavigator();
 
 function LoginScreenStack() {
   return (
-    <NavigationContainer independent={true}>
+    <RegisterProvider>
+      <NavigationContainer independent={true}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="RegisterScreen" component={registerScreen} />
@@ -30,6 +31,7 @@ function LoginScreenStack() {
         <Stack.Screen name="RegisterScreen3" component={registerScreen3} />
       </Stack.Navigator>
     </NavigationContainer>
+    </RegisterProvider>
   );
 }
 

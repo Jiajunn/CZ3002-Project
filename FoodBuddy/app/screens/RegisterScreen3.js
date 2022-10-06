@@ -7,18 +7,23 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
+  Pressable,
 } from "react-native";
 import { Card } from "react-native-paper";
-import { useState } from "react";
-import CustomCheckBox from "../components/CustomCheckBox";
+import { useState, useContext } from "react";
+import SmokingCheckBox from "../components/SmokingCheckBox";
+import { RegisterContext } from "../contexts/RegisterContext";
 
-export default function RegisterScreen3(props) {
-  const [smoking, setSmoking] = useState(false);
-  const [smokingString, setSmokingString] = useState("noo")
-  const handleClick =(textValue, setCheckbox, isChecked)=>{
+export default function RegisterScreen3({route}) {
+  const {user} = useContext(RegisterContext);
+  const [yes, setYes] = useState(false);
+  const [no, setNo] = useState(true);
+  const [smokingString, setSmokingString] = useState("No")
+  const handleClick =(textValue, setCheckbox, isChecked, isOtherChecked, setIsOther, setSmokingString)=>{
     if(textValue!= smokingString){
-      setSmokingString(textValue)
-      setCheckbox(!isChecked)
+      setCheckbox(!isChecked);
+      setIsOther(!isOtherChecked);
+      setSmokingString(textValue);
     }
   }
   return (
@@ -63,45 +68,9 @@ export default function RegisterScreen3(props) {
           marginLeft: 10,
         }}
       >
-        <CustomCheckBox textValue="Yes" isChecked={smoking} setCheckbox={setSmoking} handleClick={handleClick}></CustomCheckBox>
-        <CustomCheckBox textValue="No" isChecked={!smoking} setCheckbox={setSmoking} handleClick={handleClick}></CustomCheckBox>
+        <SmokingCheckBox textValue="Yes" isChecked={yes} setCheckbox={setYes} handleClick={handleClick} isOtherChecked={no} setIsOther={setNo} setSmokingString={setSmokingString}></SmokingCheckBox>
+        <SmokingCheckBox textValue="No" isChecked={no} setCheckbox={setNo} handleClick={handleClick} isOtherChecked={yes} setIsOther={setYes} setSmokingString={setSmokingString}></SmokingCheckBox>
       </View>
-      {/* <Text
-        style={{
-          fontSize: 25,
-          marginLeft: 20,
-          fontWeight: "bold",
-          marginBottom: 10,
-        }}
-      >
-        Food Allergies
-      </Text>
-      <Text style={{ fontSize: 20, marginLeft: 20, marginBottom: 10 }}>
-        Do you have any food allergies?
-      </Text>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          padding: 20,
-          marginLeft: 10,
-        }}
-      >
-        <TouchableOpacity style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Yes"
-            placeholderTextColor="#003f5c"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="No"
-            placeholderTextColor="#003f5c"
-          />
-        </TouchableOpacity>
-      </View> */}
       <TouchableOpacity
         style={{
           backgroundColor: "#8F9467",
@@ -111,11 +80,30 @@ export default function RegisterScreen3(props) {
           marginTop: 30,
         }}
       >
-        <TextInput
+        <Pressable
+          onPress={()=>{
+            user.smokingStatus= smokingString;
+            fetch("http://192.168.0.196:8080/api/auth/signin", {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                user
+              })
+            })
+            .then((res) => {
+              return res.json();
+            })
+            .then((result) => {
+              console.log(result);
+            })}}
           style={{ textAlign: "center", height: 50, fontSize: 20, flex: 1 }}
-          placeholder="REGISTER MY ACCOUNT"
-          placeholderTextColor="white"
-        />
+          // placeholder="REGISTER MY ACCOUNT"
+          // placeholderTextColor="white"
+        >
+          REGISTER MY ACCOUNT
+        </Pressable>
       </TouchableOpacity>
     </View>
   );
