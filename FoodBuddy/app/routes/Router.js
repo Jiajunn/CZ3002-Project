@@ -6,7 +6,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import {View, ActivityIndicator} from "react-native"
 
 export const Router = () => {
-    const {isLoading, userToken, setIsLoading} = useContext(AuthContext)
+    const {isLoading, userId, setIsLoading} = useContext(AuthContext)
     if(isLoading){
         return(
             <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
@@ -17,7 +17,7 @@ export const Router = () => {
     }
     return(
         <NavigationContainer>
-            {userToken ? <Tabs></Tabs> : <LoginScreenStack></LoginScreenStack>}
+            {userId ? <Tabs></Tabs> : <LoginScreenStack></LoginScreenStack>}
         </NavigationContainer>
     )
 }

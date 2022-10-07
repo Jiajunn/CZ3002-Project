@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -40,7 +40,7 @@ function TodayScreen(props) {
             styles.button,
           ]}
         >
-          <Text style={styles.buttonText}>Food Log</Text>
+          <Text style={styles.buttonText}>Food Log </Text>
         </Pressable>
 
         <Pressable

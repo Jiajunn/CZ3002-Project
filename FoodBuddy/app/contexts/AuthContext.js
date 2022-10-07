@@ -5,8 +5,8 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [userToken, setUserToken] = useState(null);
-  //const [userId, setUserId] = useState(null);
+  //const [userToken, setUserToken] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const login =(usernameOrEmail, password) =>{
     if(usernameOrEmail == "" || password == ""){
@@ -14,7 +14,7 @@ export const AuthProvider = ({children}) => {
     }
     else{
       setIsLoading(true);
-      fetch(`http://${IpAddress}/api/auth/signin`, {
+      fetch(`http://${IpAddress}:8080/api/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,10 +29,10 @@ export const AuthProvider = ({children}) => {
       })
       .then((result) => {
         console.log(result);
-        setUserToken(result.accessToken);
-        //setUserId(result.userId);
-        AsyncStorage.setItem('userToken', result.accessToken);
-        //AsyncStorage.setItem('userId', result.userId)
+        // setUserToken(result.accessToken);
+        setUserId(result);
+        // AsyncStorage.setItem('userToken', result.accessToken);
+        //AsyncStorage.setItem('userId', result)
       })
       .catch(e =>{
         alert("Login error");
@@ -44,37 +44,37 @@ export const AuthProvider = ({children}) => {
 
   const logout =() =>{
     setIsLoading(true);
-    setUserToken(null);
-    //setUserId(null);
-    AsyncStorage.removeItem('userToken');
+    //setUserToken(null);
+    setUserId(null);
+    //AsyncStorage.removeItem('userToken');
     //AsyncStorage.removeItem('userId')
     setIsLoading(false);
   }
 
-  const isLoggedIn = async () =>{
-    try{
-      setIsLoading(true);
-      let userToken = await AsyncStorage.getItem('userToken');
-      //let userId = await AsyncStorage.getItem('userId')
-      console.log(userToken);
+  // const isLoggedIn = async () =>{
+  //   try{
+  //     setIsLoading(true);
+  //     //let userToken = await AsyncStorage.getItem('userToken');
+  //     let userId = await AsyncStorage.getItem('userId')
+  //     console.log(userId);
 
-      if(userToken){
-        setUserToken(userToken);
-        //setUserId(userId);
-      }
-      setIsLoading(false);
-    } catch(e){
-      console.log(`isLoggedIn error: ${e}`);
-    }
+  //     if(userId){
+  //       //setUserToken(userToken);
+  //       setUserId(userId);
+  //     }
+  //     setIsLoading(false);
+  //   } catch(e){
+  //     console.log(`isLoggedIn error: ${e}`);
+  //   }
 
-    useEffect( () => {
-      isLoggedIn();
-    }, [])
+  //   useEffect( () => {
+  //     isLoggedIn();
+  //   }, [])
     
 
-  }
+  //}
   return(
-    <AuthContext.Provider value={{login, logout, isLoading, userToken, setIsLoading}}>
+    <AuthContext.Provider value={{login, logout, isLoading, userId, setIsLoading}}>
       {children}
     </AuthContext.Provider>
   )
