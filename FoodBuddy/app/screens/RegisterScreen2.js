@@ -45,7 +45,7 @@ export default function RegisterScreen2({route}) {
       >
         <Pressable
           onPress={()=>{
-            navigation.navigate("RegisterScreen")
+            navigation.goBack()
           }}>
           <Text
             style={{
@@ -73,10 +73,8 @@ export default function RegisterScreen2({route}) {
         </Text>
         <Text style={{ fontSize: 17, marginLeft: 20, marginBottom: 10 }}>
           You may choose more than 1 option
-          {diseaseArray}
         </Text>
         <View style={{ marginLeft: 20 }}>
-          {/* <CustomCheckBox textValue="None" isChecked={none} setNone={setNone}></CustomCheckBox> */}
           <CustomCheckBox handleClick={handleClick} isChecked={cancer} setCheckbox={setCancer}textValue="Cancer" ></CustomCheckBox>
           <CustomCheckBox handleClick={handleClick} isChecked={alzeimers} setCheckbox={setAlzeimers}textValue="Alzeimers"></CustomCheckBox>
           <CustomCheckBox handleClick={handleClick} isChecked={osteoporosis} setCheckbox={setOsteoporosis}textValue="Osteoporosis"></CustomCheckBox>

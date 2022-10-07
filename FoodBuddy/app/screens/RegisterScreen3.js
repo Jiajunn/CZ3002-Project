@@ -13,8 +13,10 @@ import { Card } from "react-native-paper";
 import { useState, useContext } from "react";
 import SmokingCheckBox from "../components/SmokingCheckBox";
 import { RegisterContext } from "../contexts/RegisterContext";
+import { useNavigation } from "@react-navigation/native";
 
 export default function RegisterScreen3({route}) {
+  const navigation = useNavigation();
   const {user} = useContext(RegisterContext);
   const [yes, setYes] = useState(false);
   const [no, setNo] = useState(true);
@@ -36,16 +38,21 @@ export default function RegisterScreen3({route}) {
           marginBottom: 40,
         }}
       >
-        <Text
-          style={{
-            fontSize: 26,
-            marginTop: 87,
-            marginLeft: 100,
-            color: "white",
-          }}
-        >
-          Back
-        </Text>
+        <Pressable
+          onPress={()=>{
+            navigation.goBack()
+          }}>
+          <Text
+            style={{
+              fontSize: 26,
+              marginTop: 87,
+              marginLeft: 100,
+              color: "white",
+            }}
+          >
+            Back
+          </Text>
+        </Pressable>
       </Card>
       <Text
         style={{
@@ -58,7 +65,7 @@ export default function RegisterScreen3({route}) {
         Smoking Habits
       </Text>
       <Text style={{ fontSize: 20, marginLeft: 20, marginBottom: 10 }}>
-        Do you smoke? {smokingString}
+        Do you smoke?
       </Text>
       <View
         style={{
@@ -72,38 +79,49 @@ export default function RegisterScreen3({route}) {
         <SmokingCheckBox textValue="No" isChecked={no} setCheckbox={setNo} handleClick={handleClick} isOtherChecked={yes} setIsOther={setYes} setSmokingString={setSmokingString}></SmokingCheckBox>
       </View>
       <TouchableOpacity
+        
         style={{
           backgroundColor: "#8F9467",
+          paddingTop: 10,
           width: 275,
           height: 45,
           marginLeft: 30,
           marginTop: 30,
         }}
+        onPress={()=>{
+          user.smokingStatus= smokingString;
+          let temp = user.height;
+          user.height = parseInt(temp, 'decimal');
+          temp = user.weight; 
+          user.weight = parseInt(temp, 'decimal');
+          console.log({...user})
+          fetch("http://192.168.0.195:8080/api/auth/signup", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({...user})
+          })
+          .then((res) => {
+            return res.json();
+          })
+          .then((result) => {
+            if(result.success == true){
+              alert("Successfully registered");
+              navigation.navigate("Login");
+            }
+            else{
+              alert(result.message);
+              navigation.navigate("RegisterScreen"); 
+            }
+          })}}
       >
-        <Pressable
-          onPress={()=>{
-            user.smokingStatus= smokingString;
-            fetch("http://192.168.0.196:8080/api/auth/signin", {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                user
-              })
-            })
-            .then((res) => {
-              return res.json();
-            })
-            .then((result) => {
-              console.log(result);
-            })}}
-          style={{ textAlign: "center", height: 50, fontSize: 20, flex: 1 }}
-          // placeholder="REGISTER MY ACCOUNT"
-          // placeholderTextColor="white"
+        <Text
+          
+          style={{ textAlign: "center", height: 50, fontSize: 20, flex: 1, color:"white", fontWeight: "500"}}
         >
           REGISTER MY ACCOUNT
-        </Pressable>
+        </Text>
       </TouchableOpacity>
     </View>
   );

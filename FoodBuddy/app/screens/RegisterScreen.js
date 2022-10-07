@@ -1,12 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import * as React from "react";
 import {
   Text,
   View,
   StyleSheet,
-  Image,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
 import { Card } from "react-native-paper";
@@ -60,55 +58,64 @@ export default function RegisterScreen(props) {
             name="username" 
             placeholder="Username" 
             value={user.username} 
-            onChangeText={handleChange}>
+            onChangeText={handleChange}
+            keyboardType="default">
           </CustomTextField>
           <CustomTextField 
             name="password" 
             placeholder="Password" 
             value={user.password} 
-            onChangeText={handleChange}>
+            onChangeText={handleChange}
+            keyboardType="default">
           </CustomTextField>
           <CustomTextField 
             name="firstName" 
             placeholder="First Name" 
             value={user.firstName} 
-            onChangeText={handleChange}>
+            onChangeText={handleChange}
+            keyboardType="default">
           </CustomTextField>
           <CustomTextField 
             name="lastName" 
             placeholder="Last Name" 
             value={user.lastName} 
-            onChangeText={handleChange}>
+            onChangeText={handleChange}
+            keyboardType="default">
           </CustomTextField>
           <CustomTextField 
             name="email" 
             placeholder="Email" 
             value={user.email} 
-            onChangeText={handleChange}>
+            onChangeText={handleChange}
+            keyboardType="email-address">
           </CustomTextField>
           <CustomTextField 
             name="height" 
             placeholder="Height(cm)" 
             value={user.height} 
-            onChangeText={handleChange}>
+            onChangeText={handleChange}
+            keyboardType="number-pad">
           </CustomTextField>
           <CustomTextField 
             name="weight" 
             placeholder="Weight(kg)" 
             value={user.weight} 
-            onChangeText={handleChange}>
+            onChangeText={handleChange}
+            keyboardType="number-pad">
           </CustomTextField>
           <CustomTextField 
             name="date" 
-            placeholder="Date of Birth (YYYY-MM-DD)" 
+            placeholder="DOB (YYYY-MM-DD)" 
             value={user.date} 
-            onChangeText={handleChange}>
+            onChangeText={handleChange}
+            keyboardType="default">
           </CustomTextField>
           <CustomTextField 
             name="gender" 
             placeholder="Gender" 
             value={user.gender} 
-            onChangeText={handleChange}>
+            onChangeText={handleChange}
+            keyboardType="default">
           </CustomTextField>
           
           <TouchableOpacity
@@ -119,8 +126,16 @@ export default function RegisterScreen(props) {
               marginTop: 30,
             }}
             onPress={() => {
-              console.log(user)
-              navigation.navigate("RegisterScreen2")}
+              Object.values(user).every(i => {
+                if(i == ""){
+                  alert("Input fields cannot be empty");
+                  return false;
+                }
+                else{
+                  console.log(user)
+                  navigation.navigate("RegisterScreen2")
+                }})
+              }
             }
           >
             <Text

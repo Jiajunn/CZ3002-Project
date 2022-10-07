@@ -2,7 +2,7 @@ import { StyleSheet , TouchableOpacity, TextInput} from "react-native";
 
 
 
-const CustomTextField =({name, placeholder, value, onChangeText})=>{
+const CustomTextField =({name, placeholder, value, onChangeText, keyboardType})=>{
 
     return(
         <TouchableOpacity style={styles.inputView}>
@@ -12,6 +12,7 @@ const CustomTextField =({name, placeholder, value, onChangeText})=>{
               value={value}
               onChangeText={text=> onChangeText(text, name)}
               placeholderTextColor="#003f5c"
+              keyboardType={keyboardType}
             />
           </TouchableOpacity>
     )

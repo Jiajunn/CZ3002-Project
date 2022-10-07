@@ -92,36 +92,41 @@ function LoginScreen(props) {
           />
         </TouchableOpacity>
       </Card>
-      <TouchableOpacity
-        style={styles.buttonn}
-        onPress={() => {
-          login(usernameOrEmail, password);
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "centre",
-            padding: 12,
-            fontSize: 20,
+      <Card
+        style={{alignItems: "center", backgroundColor:"transparent"}}>
+          <TouchableOpacity
+          style={styles.buttonn}
+          onPress={() => {
+            login(usernameOrEmail, password);
           }}
         >
-          Login
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonn}
-        onPress={() => navigation.navigate("RegisterScreen")}
-      >
-        <Text
-          style={{
-            textAlign: "centre",
-            padding: 12,
-            fontSize: 20,
-          }}
+          <Text
+            style={{
+              textAlign: "centre",
+              padding: 12,
+              fontSize: 20,
+            }}
+          >
+            Login
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonn}
+          onPress={() => navigation.navigate("RegisterScreen")}
         >
-          Register
-        </Text>
-      </TouchableOpacity>
+          <Text
+            style={{
+              textAlign: "centre",
+              padding: 12,
+              fontSize: 20,
+            }}
+          >
+            Register
+          </Text>
+        </TouchableOpacity>
+
+      </Card>
+      
     </View>
   );
 }
