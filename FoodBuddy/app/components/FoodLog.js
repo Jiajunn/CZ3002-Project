@@ -6,9 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import FoodLogCard from "./FoodLogCard";
 
 function sortFood(todayFood) {
-  var datetime = new Date(todayFood[0].datetime);
   var i = 0;
-  var date = datetime.toLocaleDateString();
   var foodLog = [];
   var breakfast = [];
   var lunch = [];
@@ -47,7 +45,7 @@ function sortFood(todayFood) {
       <FoodLogCard
         type_of_meal="Breakfast"
         food={breakfast}
-        date={date}
+        date={TodayDate}
         key={i}
       />
     );
@@ -55,19 +53,24 @@ function sortFood(todayFood) {
   }
   if (lunch.length != 0) {
     foodLog.push(
-      <FoodLogCard type_of_meal="Lunch" food={lunch} date={date} key={i} />
+      <FoodLogCard type_of_meal="Lunch" food={lunch} date={TodayDate} key={i} />
     );
     i++;
   }
   if (dinner.length != 0) {
     foodLog.push(
-      <FoodLogCard type_of_meal="Dinner" food={dinner} date={date} key={i} />
+      <FoodLogCard
+        type_of_meal="Dinner"
+        food={dinner}
+        date={TodayDate}
+        key={i}
+      />
     );
     i++;
   }
   if (snack.length != 0) {
     foodLog.push(
-      <FoodLogCard type_of_meal="Snack" food={snack} date={date} key={i} />
+      <FoodLogCard type_of_meal="Snack" food={snack} date={TodayDate} key={i} />
     );
     i++;
   }
