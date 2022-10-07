@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {createContext, useEffect, useState} from 'react'
-import { BASE_URL } from '../../global';
 
 export const AuthContext = createContext(); 
 
@@ -15,7 +14,7 @@ export const AuthProvider = ({children}) => {
     }
     else{
       setIsLoading(true);
-      fetch("http://192.168.0.195:8080/api/auth/signin", {
+      fetch(`http://${IpAddress}/api/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -95,7 +95,7 @@ export default function RegisterScreen3({route}) {
           temp = user.weight; 
           user.weight = parseInt(temp, 'decimal');
           console.log({...user})
-          fetch("http://192.168.0.195:8080/api/auth/signup", {
+          fetch(`http://${IpAddress}/api/auth/signin`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
