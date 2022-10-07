@@ -17,12 +17,13 @@ import registerScreen2 from "./RegisterScreen2";
 import registerScreen3 from "./RegisterScreen3";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../contexts/AuthContext";
-
+import { RegisterProvider } from "../contexts/RegisterContext";
 const Stack = createNativeStackNavigator();
 
 function LoginScreenStack() {
   return (
-    <NavigationContainer independent={true}>
+    <RegisterProvider>
+      <NavigationContainer independent={true}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="RegisterScreen" component={registerScreen} />
@@ -30,11 +31,12 @@ function LoginScreenStack() {
         <Stack.Screen name="RegisterScreen3" component={registerScreen3} />
       </Stack.Navigator>
     </NavigationContainer>
+    </RegisterProvider>
   );
 }
 
 function LoginScreen(props) {
-  const [username, setUsername] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const { login } = useContext(AuthContext);
@@ -75,8 +77,8 @@ function LoginScreen(props) {
             style={styles.TextInput}
             placeholder="Username"
             placeholderTextColor="#003f5c"
-            value={username}
-            onChangeText={setUsername}
+            value={usernameOrEmail}
+            onChangeText={setUsernameOrEmail}
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.inputView}>
@@ -90,36 +92,41 @@ function LoginScreen(props) {
           />
         </TouchableOpacity>
       </Card>
-      <TouchableOpacity
-        style={styles.buttonn}
-        onPress={() => {
-          login();
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "centre",
-            padding: 12,
-            fontSize: 20,
+      <Card
+        style={{alignItems: "center", backgroundColor:"transparent"}}>
+          <TouchableOpacity
+          style={styles.buttonn}
+          onPress={() => {
+            login(usernameOrEmail, password);
           }}
         >
-          Login
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonn}
-        onPress={() => navigation.navigate("RegisterScreen")}
-      >
-        <Text
-          style={{
-            textAlign: "centre",
-            padding: 12,
-            fontSize: 20,
-          }}
+          <Text
+            style={{
+              textAlign: "centre",
+              padding: 12,
+              fontSize: 20,
+            }}
+          >
+            Login
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonn}
+          onPress={() => navigation.navigate("RegisterScreen")}
         >
-          Register
-        </Text>
-      </TouchableOpacity>
+          <Text
+            style={{
+              textAlign: "centre",
+              padding: 12,
+              fontSize: 20,
+            }}
+          >
+            Register
+          </Text>
+        </TouchableOpacity>
+
+      </Card>
+      
     </View>
   );
 }

@@ -81,7 +81,7 @@ function FoodLog() {
   const navigation = useNavigation();
   const [todayFood, setTodayFood] = useState();
   const url =
-    "http://" + IpAddress + ":8080/api/foodLog/" + UserID + "/todayFoodLogs";
+    "http://" + "192.168.0.195" + ":8080/api/foodLog/" + "2" + "/todayFoodLogs";
   useEffect(() => {
     fetch(url)
       .then((res) => {
