@@ -1,15 +1,26 @@
+import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
 import * as React from "react";
 import {
   Text,
   View,
   StyleSheet,
-  Image,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
 import { Card } from "react-native-paper";
+import CustomTextField from "../components/CustomTextField";
+import { RegisterContext } from "../contexts/RegisterContext";
 
 export default function RegisterScreen(props) {
+  const { user, setUser} = useContext(RegisterContext);
+  const navigation = useNavigation();
+
+  const handleChange=(text, name)=> {
+    console.log(text, name);
+    setUser(prev=> ({...prev, [name]: text}))
+    console.log(user)
+  }
+  
   return (
     <View style={styles.container}>
       <Card
@@ -43,48 +54,70 @@ export default function RegisterScreen(props) {
           Personal Information
         </Text>
         <View style={{ marginLeft: 40 }}>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Username"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Password"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Weight(kg)"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Height(cm)"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Birth date"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder=" Gender"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
+          <CustomTextField 
+            name="username" 
+            placeholder="Username" 
+            value={user.username} 
+            onChangeText={handleChange}
+            keyboardType="default">
+          </CustomTextField>
+          <CustomTextField 
+            name="password" 
+            placeholder="Password" 
+            value={user.password} 
+            onChangeText={handleChange}
+            keyboardType="default">
+          </CustomTextField>
+          <CustomTextField 
+            name="firstName" 
+            placeholder="First Name" 
+            value={user.firstName} 
+            onChangeText={handleChange}
+            keyboardType="default">
+          </CustomTextField>
+          <CustomTextField 
+            name="lastName" 
+            placeholder="Last Name" 
+            value={user.lastName} 
+            onChangeText={handleChange}
+            keyboardType="default">
+          </CustomTextField>
+          <CustomTextField 
+            name="email" 
+            placeholder="Email" 
+            value={user.email} 
+            onChangeText={handleChange}
+            keyboardType="email-address">
+          </CustomTextField>
+          <CustomTextField 
+            name="height" 
+            placeholder="Height(cm)" 
+            value={user.height} 
+            onChangeText={handleChange}
+            keyboardType="number-pad">
+          </CustomTextField>
+          <CustomTextField 
+            name="weight" 
+            placeholder="Weight(kg)" 
+            value={user.weight} 
+            onChangeText={handleChange}
+            keyboardType="number-pad">
+          </CustomTextField>
+          <CustomTextField 
+            name="date" 
+            placeholder="DOB (YYYY-MM-DD)" 
+            value={user.date} 
+            onChangeText={handleChange}
+            keyboardType="default">
+          </CustomTextField>
+          <CustomTextField 
+            name="gender" 
+            placeholder="Gender" 
+            value={user.gender} 
+            onChangeText={handleChange}
+            keyboardType="default">
+          </CustomTextField>
+          
           <TouchableOpacity
             style={{
               backgroundColor: "#8F9467",
@@ -92,12 +125,24 @@ export default function RegisterScreen(props) {
               height: 45,
               marginTop: 30,
             }}
+            onPress={() => {
+              Object.values(user).every(i => {
+                if(i == ""){
+                  alert("Input fields cannot be empty");
+                  return false;
+                }
+                else{
+                  console.log(user)
+                  navigation.navigate("RegisterScreen2")
+                }})
+              }
+            }
           >
-            <TextInput
-              style={{ textAlign: "center", height: 50, fontSize: 20, flex: 1 }}
-              placeholder="NEXT"
-              placeholderTextColor="white"
-            />
+            <Text
+              style={{ textAlign: "center", height: 50, fontSize: 20, flex: 1, color:"white", marginTop:8 }}
+            > NEXT
+            </Text>
+            
           </TouchableOpacity>
         </View>
       </View>
