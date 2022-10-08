@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Text, View, StyleSheet, Pressable, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 
 import FoodLogCard from "./FoodLogCard";
+import { AuthContext } from "../contexts/AuthContext";
 
 function sortFood(todayFood) {
   var i = 0;
@@ -80,8 +81,9 @@ function sortFood(todayFood) {
 function FoodLog() {
   const navigation = useNavigation();
   const [todayFood, setTodayFood] = useState();
+  const { userId } = useContext(AuthContext);
   const url =
-    "http://" + "192.168.0.195" + ":8080/api/foodLog/" + "2" + "/todayFoodLogs";
+    "http://" + IpAddress + ":8080/api/foodLog/" + userId + "/todayFoodLogs";
   useEffect(() => {
     fetch(url)
       .then((res) => {
