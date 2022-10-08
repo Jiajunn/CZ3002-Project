@@ -1,61 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import { Text, View, StyleSheet, Image, ScrollView } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import DropDownPicker from "react-native-dropdown-picker";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-function retrieveAllNutrients() {
-  var allNutrients = [];
-  const url =
-    "http://" +
-    IpAddress +
-    ":8080/api/report/getHistoricalCalciumData/" +
-    UserID +
-    "/" +
-    TodayDate +
-    "/" +
-    TodayDate;
+import { AuthContext } from "../contexts/AuthContext";
+
+function getFoodReco() {
+  const [reco, setReco] = useState([]);
+  const { userId } = useContext(AuthContext);
+  const url = "http://" + IpAddress + ":8080/api/food/getFoodRec/" + userId;
   fetch(url)
     .then((res) => {
       return res.json();
     })
     .then((result) => {
-      allNutrients.push({ Calorie: result.nutrientAmount });
+      setReco(result);
     })
     .catch((err) => {
       console.log("No food added today maybe? orr", err);
     });
+  return reco.slice(0, 3);
 }
 
-function getFoodReco() {}
+function retrieveAllNutrients() {}
 
 function NutrientLog(props) {
-  const [selectedNutrient, setSelected] = useState([
-    "Carbohydrate",
-    "Protein",
-    "Saturated Fats",
-    "Unsaturated Fats",
-  ]);
-
   var array = [];
   nutrients.map((item) => {
     array.push({ label: item, value: item });
   });
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([
-    "Carbohydrate",
+    "Carbs",
     "Protein",
-    "Saturated Fats",
-    "Unsaturated Fats",
+    "Sat Fats",
+    "Unsat Fats",
   ]);
   const [items, setItems] = useState(array);
   retrieveAllNutrients();
+  const reco = getFoodReco();
+  const gotReco = reco.length == 0 ? false : true;
 
   return (
     <View style={styles.container}>
       <View elevation={5} style={styles.graphContainer}>
         <DropDownPicker
           multiple={true}
-          max={5}
+          max={4}
           open={open}
           value={value}
           items={items}
@@ -63,7 +55,6 @@ function NutrientLog(props) {
           setValue={setValue}
           setItems={setItems}
           containerStyle={styles.dropDownContainer}
-          onChangeValue={() => setSelected(value)}
         />
         <Text style={[styles.title, { marginTop: 20 }]}>
           Total Nutrient Intake
@@ -72,7 +63,7 @@ function NutrientLog(props) {
         <BarChart
           style={styles.chart}
           data={{
-            labels: selectedNutrient,
+            labels: value,
             datasets: [
               {
                 data: [20, 30, 40, 50],
@@ -80,7 +71,7 @@ function NutrientLog(props) {
             ],
           }}
           width={300}
-          height={250}
+          height={300}
           chartConfig={{
             backgroundColor: "#ffffff",
             backgroundGradientFrom: "#ffffff",
@@ -89,37 +80,30 @@ function NutrientLog(props) {
             strokeWidth: 2,
             barPercentage: 0.7,
             propsForVerticalLabels: {
-              rotation: 45,
+              rotation: -30,
             },
           }}
         />
       </View>
 
       <View elevation={5} style={styles.recoContainer}>
-        <Text style={styles.title}>Suggested Meal For You</Text>
-        <View style={styles.reco}>
-          <View style={styles.imgtxt}>
-            <Image
-              style={styles.recoImage}
-              source={require("../assets/chickenSalad.jpg")}
-            />
-            <Text style={{ fontSize: 12 }}> Chicken Salad</Text>
-          </View>
-          <View style={styles.imgtxt}>
-            <Image
-              style={styles.recoImage}
-              source={require("../assets/chickenSalad.jpg")}
-            />
-            <Text style={{ fontSize: 12 }}> Chicken Salad</Text>
-          </View>
-          <View style={styles.imgtxt}>
-            <Image
-              style={styles.recoImage}
-              source={require("../assets/chickenSalad.jpg")}
-            />
-            <Text style={{ fontSize: 12 }}> Chicken Salad</Text>
-          </View>
-        </View>
+        <Text style={styles.title}>Suggested Food For You</Text>
+        <ScrollView
+          horizontal={true}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          {gotReco &&
+            reco.map((item, i) => {
+              return (
+                <View style={styles.imgtxt} key={i}>
+                  <MaterialCommunityIcons name="cup" style={styles.recoImage} />
+                  <Text key={i} style={{ fontWeight: "bold" }}>
+                    {item.food_name}
+                  </Text>
+                </View>
+              );
+            })}
+        </ScrollView>
       </View>
     </View>
   );
@@ -146,6 +130,8 @@ const styles = StyleSheet.create({
   },
   imgtxt: {
     alignItems: "center",
+    width: 300,
+    borderRadius: 25,
   },
   reco: {
     flexDirection: "row",
@@ -168,9 +154,11 @@ const styles = StyleSheet.create({
     },
   },
   recoImage: {
-    height: 70,
-    width: 70,
-    borderRadius: 35,
+    fontSize: 50,
+  },
+  scrollContainer: {
+    justifyContent: "space-between",
+    width: 900,
   },
   title: {
     fontSize: 20,

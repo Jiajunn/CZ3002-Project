@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from "react-native-dropdown-picker";
+
+import { AuthContext } from "../contexts/AuthContext";
 
 function AddMealScreen(props) {
   const navigation = useNavigation();
@@ -11,6 +13,7 @@ function AddMealScreen(props) {
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([]);
   const { newMeal } = route.params;
+  const { userId } = useContext(AuthContext);
 
   useEffect(() => {
     const url = "http://" + IpAddress + ":8080/api/food/allFood";
@@ -79,10 +82,10 @@ function AddMealScreen(props) {
             "http://" +
             IpAddress +
             ":8080/api/foodLog/" +
-            UserID +
+            userId +
             "/addFoodLog";
           const meal_type = newMeal.type_of_meal;
-          newMeal.food.map((items, i) => {
+          newMeal.food.map((items) => {
             fetch(url, {
               method: "POST",
               headers: {

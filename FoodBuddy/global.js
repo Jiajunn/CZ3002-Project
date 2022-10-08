@@ -1,12 +1,9 @@
 global.LoggedIn = false;
 
-
-global.IpAddress = "192.168.0.195";
+global.IpAddress = "192.168.1.117";
 //NTU ip = 10.27.9.194
 //JJ house ip = 192.168.1.117
 // yz school = 192.168.0.195
-
-global.UserID = "2";
 
 var today = new Date();
 const day = today.getDate();
@@ -16,15 +13,15 @@ const year = today.getFullYear();
 global.TodayDate = year + "-" + month + "-" + day;
 
 global.nutrients = [
-  "Unsaturated Fats",
+  "Unsat Fats",
   "Energy",
-  "Dietary Fibre",
-  "Carbohydrate",
+  "Fibre",
+  "Carbs",
   "Sodium",
   "Cholesterol",
   "Calcium",
   "Sugar",
-  "Saturated Fats",
+  "Sat Fats",
   "Vitamin C",
   "Vitamin A",
   "Potassium",
