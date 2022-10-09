@@ -78,25 +78,26 @@ function AddMealScreen(props) {
         style={styles.nextButton}
         onPress={() => {
           navigation.navigate("Today", { newMeal: newMeal });
-          url =
-            "http://" +
-            IpAddress +
-            ":8080/api/foodLog/" +
-            userId +
-            "/addFoodLog";
           const meal_type = newMeal.type_of_meal;
           newMeal.food.map((items) => {
-            fetch(url, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                foodname: items.foodname,
-                no_of_servings: items.no_of_servings,
-                type_of_meal: meal_type,
-              }),
-            }).catch((err) => console.log("Post error " + err));
+            fetch(
+              "http://" +
+                IpAddress +
+                ":8080/api/foodLog/" +
+                userId +
+                "/addFoodLog",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  foodname: items.foodname,
+                  no_of_servings: items.no_of_servings,
+                  type_of_meal: meal_type,
+                }),
+              }
+            ).catch((err) => console.log("Post error " + err));
           });
         }}
       >

@@ -6,41 +6,42 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import { AuthContext } from "../contexts/AuthContext";
 
-function getFoodReco() {
-  const [reco, setReco] = useState([]);
-  const { userId } = useContext(AuthContext);
-  const url = "http://" + IpAddress + ":8080/api/food/getFoodRec/" + userId;
-  fetch(url)
-    .then((res) => {
-      return res.json();
-    })
-    .then((result) => {
-      setReco(result);
-    })
-    .catch((err) => {
-      console.log("No food added today maybe? orr", err);
-    });
-  return reco.slice(0, 3);
-}
-
-function retrieveAllNutrients() {}
-
 function NutrientLog(props) {
   var array = [];
   nutrients.map((item) => {
     array.push({ label: item, value: item });
   });
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([
-    "Carbs",
-    "Protein",
-    "Sat Fats",
-    "Unsat Fats",
-  ]);
+  const [value, setValue] = useState([]);
   const [items, setItems] = useState(array);
-  retrieveAllNutrients();
-  const reco = getFoodReco();
-  const gotReco = reco.length == 0 ? false : true;
+  const [reco, setReco] = useState([]);
+  const [nutri, setNutri] = useState([]);
+  const [gotReco, setGotReco] = useState(false);
+  const { userId } = useContext(AuthContext);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    Promise.all([
+      fetch(
+        "http://" +
+          IpAddress +
+          ":8080/api/report/getTodaysNutrientIntake/" +
+          userId
+      ).then((value) => value.json()),
+      fetch("http://" + IpAddress + ":8080/api/food/getFoodRec/" + userId).then(
+        (value) => value.json()
+      ),
+    ])
+      .then((value) => {
+        setNutri(value[0]);
+        setReco(value[1]);
+      })
+      .catch((err) => {
+        console.log("An error occurred:", err);
+      });
+  }, []);
+  if (reco.length != 0) {
+    setGotReco(true);
+  }
 
   return (
     <View style={styles.container}>
@@ -55,6 +56,50 @@ function NutrientLog(props) {
           setValue={setValue}
           setItems={setItems}
           containerStyle={styles.dropDownContainer}
+          onChangeValue={() => {
+            var newData = [];
+            value.map((item) => {
+              switch (item) {
+                case "Calcium":
+                  newData.push(nutri.calciumAmount);
+                  break;
+                case "Calorie":
+                  newData.push(nutri.calorieAmount);
+                  break;
+                case "Potassium":
+                  newData.push(nutri.potassiumAmount);
+                  break;
+                case "Protein":
+                  newData.push(nutri.proteinAmount);
+                  break;
+                case "VitaminB2":
+                  newData.push(nutri.vitaminB2Amount);
+                  break;
+                case "VitaminA":
+                  newData.push(nutri.vitaminAAmount);
+                  break;
+                case "VitaminC":
+                  newData.push(nutri.vitaminCAmount);
+                  break;
+                case "VitaminD":
+                  newData.push(nutri.vitaminDAmount);
+                  break;
+                case "Sugar":
+                  newData.push(nutri.sugarAmount);
+                  break;
+                case "Sodium":
+                  newData.push(nutri.sodiumAmount);
+                  break;
+                case "Zinc":
+                  newData.push(nutri.zincAmount);
+                  break;
+                case "Carbs":
+                  newData.push(nutri.carbohydrateAmount);
+                  break;
+              }
+            });
+            setData(newData);
+          }}
         />
         <Text style={[styles.title, { marginTop: 20 }]}>
           Total Nutrient Intake
@@ -66,7 +111,7 @@ function NutrientLog(props) {
             labels: value,
             datasets: [
               {
-                data: [20, 30, 40, 50],
+                data: data,
               },
             ],
           }}
@@ -83,6 +128,8 @@ function NutrientLog(props) {
               rotation: -30,
             },
           }}
+          fromZero={true}
+          showValuesOnTopOfBars={true}
         />
       </View>
 
@@ -103,6 +150,14 @@ function NutrientLog(props) {
                 </View>
               );
             })}
+          {!gotReco && (
+            <View style={{ justifyContent: "center" }}>
+              <Text style={{ fontWeight: "bold" }}>
+                You have exceeded one or more nutrient levels, try to eat
+                healthier tomorrow!
+              </Text>
+            </View>
+          )}
         </ScrollView>
       </View>
     </View>
