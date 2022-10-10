@@ -45,7 +45,7 @@ export const AuthProvider = ({children}) => {
   const logout =() =>{
     setIsLoading(true);
     //setUserToken(null);
-    setUserId(null);
+    setUserId(false);
     //AsyncStorage.removeItem('userToken');
     //AsyncStorage.removeItem('userId')
     setIsLoading(false);

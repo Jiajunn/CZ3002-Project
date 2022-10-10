@@ -8,13 +8,28 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { Card } from "react-native-paper";
-
+import UserPageDropDown from "../components/UserPageDropdown";
+import { useEffect , useContext, useState} from "react";
+import { AuthContext } from "../contexts/AuthContext";
 export default function UserProfileScreen(props) {
+  const {userId} = useContext(AuthContext);  
+  const [userProfile, setUserProfile] = useState();
+  useEffect(()=>{
+    fetch(`http://${IpAddress}:8080/api/user/${userId}`)
+          .then((res) => {
+            return res.json();
+          })
+          .then((result) => {
+            setUserProfile(result);
+          })
+  }
+  ,[])
+  
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
-        <Text style={styles.bannerText}> Profile </Text>
+        <Text style={styles.bannerText}>Profile </Text>
+        <UserPageDropDown/>
       </View>
       <View style={{ marginTop: 20 }}>
         <Text
@@ -25,7 +40,7 @@ export default function UserProfileScreen(props) {
             marginBottom: 20,
           }}
         >
-          User's Profile
+          {}
         </Text>
         <ImageBackground
           style={{ height: 150, width: 150, marginLeft: 135 }}
@@ -41,7 +56,7 @@ export default function UserProfileScreen(props) {
             marginBottom: 15,
           }}
         >
-          Username
+          {userProfile.username}
         </Text>
         <View
           style={{
@@ -64,7 +79,7 @@ export default function UserProfileScreen(props) {
           <TouchableOpacity style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
-              placeholder="72.3kg"
+              placeholder="hihi"
               placeholderTextColor="#003f5c"
             />
           </TouchableOpacity>
@@ -135,7 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#8F9467",
     width: "100%",
     height: "11%",
-    justifyContent: "flex-end",
+    flexDirection: "row",
     paddingTop: "5%",
   },
   bannerText: {
