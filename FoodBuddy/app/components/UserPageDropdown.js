@@ -41,7 +41,7 @@ const UserPageDropDown = () =>{
           ArrowUpIconComponent={()=> <Ionicons name="ellipsis-vertical-sharp" size={30} color="white"></Ionicons>}
           ArrowDownIconComponent={()=> <Ionicons name="ellipsis-vertical-sharp" size={30} color="white"></Ionicons>}
           containerStyle={{width:100, marginLeft:"70%"}}
-          dropDownContainerStyle={{borderColor:"transparent", zIndex:999, backgroundColor:"transparent", marginTop:40}}
+          dropDownContainerStyle={{borderColor:"transparent", backgroundColor:"transparent", marginTop:40}}
           placeholderStyle={{display:"none"}}
           labelStyle={{display:"none"}}
           closeAfterSelecting={true}
