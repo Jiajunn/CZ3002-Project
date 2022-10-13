@@ -7,6 +7,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import TodayMain from "../screens/TodayScreen";
 import performanceEvalScreen from "../screens/PerformanceEvalScreen";
 import userProfileScreen from "../screens/UserProfileScreen";
+import UserProfileStack from "../components/UserProfileStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -33,7 +34,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={userProfileScreen}
+        component={UserProfileStack}
         options={{
           tabBarIcon: ({ color }) => (
             <FontAwesome name="user-circle-o" color={color} size={26} />

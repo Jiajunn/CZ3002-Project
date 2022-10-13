@@ -3,8 +3,10 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState, useContext } from "react";
 import { Alert } from "react-native";
 import { AuthContext } from "../contexts/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
-const UserPageDropDown = () =>{
+const UserPageDropDown = ({user}) =>{
+    const navigation = useNavigation();
     const {logout} = useContext(AuthContext);
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
@@ -50,9 +52,11 @@ const UserPageDropDown = () =>{
             if(item.value == "logout"){
                 showAlert();
             }
-            else{
-
+            else if(item.value == "edit"){
+              navigation.navigate("EditUserProfile", {user})
             }
+
+            
           }}
         ></DropDownPicker>
     )

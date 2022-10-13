@@ -40,7 +40,8 @@ export default function UserProfileScreen(props) {
     <View style={styles.container}>
       <View style={styles.banner}>
         <Text style={styles.bannerText}>Profile </Text>
-        <UserPageDropDown/>
+        <UserPageDropDown 
+          user={{ height: userProfile.height, weight: userProfile.weight, chronicDiseases: userProfile.chronicDiseases, smokingStatus: userProfile.smokingStatus }}/>
       </View>
       <View style={{ marginTop: 20 }}>
         <Text
@@ -51,7 +52,6 @@ export default function UserProfileScreen(props) {
             marginBottom: 20,
           }}
         >
-          {}
         </Text>
         <ImageBackground
           style={{ height: 150, width: 150, marginLeft: 135 }}
