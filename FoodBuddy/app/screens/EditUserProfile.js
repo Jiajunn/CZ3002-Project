@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, TextInput, Pressable, Alert, ScrollView} from "react-native"
+import { View, Text, StyleSheet, TextInput, Pressable, Alert, ScrollView, TouchableWithoutFeedback, Keyboard} from "react-native"
 import CustomCheckBox from "../components/CustomCheckBox"
 import SmokingCheckBox from "../components/SmokingCheckBox"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { useContext, useState } from "react"
 import { AuthContext } from "../contexts/AuthContext"
+
 const EditUserProfile = () =>{
   const {userId} = useContext(AuthContext);
   const navigation = useNavigation();
@@ -77,6 +78,7 @@ const EditUserProfile = () =>{
         ],
       )};
     return(
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <View style={styles.banner}>
             <Text style={styles.bannerText}>Edit Profile</Text>
@@ -137,6 +139,7 @@ const EditUserProfile = () =>{
             </ScrollView>
           </View>
         </View>
+      </TouchableWithoutFeedback>
     )
 }
 
