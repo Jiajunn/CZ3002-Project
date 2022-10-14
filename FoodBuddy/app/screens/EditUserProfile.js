@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Pressable, Alert} from "react-native"
+import { View, Text, StyleSheet, TextInput, Pressable, Alert, ScrollView} from "react-native"
 import CustomCheckBox from "../components/CustomCheckBox"
 import SmokingCheckBox from "../components/SmokingCheckBox"
 import { useNavigation, useRoute } from "@react-navigation/native"
@@ -18,7 +18,7 @@ const EditUserProfile = () =>{
   const [cancer, setCancer] = useState(chronicDiseases.includes("Cancer"))
   const [alzeimers, setAlzeimers] = useState(chronicDiseases.includes("Alzeimers"))
   const [osteoporosis, setOsteoporosis] = useState(chronicDiseases.includes("Osteoporosis"))
-  const [diabeties, setDiabeties] = useState(chronicDiseases.includes("Diabeties"))
+  const [diabeties, setDiabeties] = useState(chronicDiseases.includes("Diabetes"))
   const [heartDiesease, setHeartDisease] = useState(chronicDiseases.includes("Heart Disease"))
   const [respiratoryDiesease, setRespiratoryDisease] = useState(chronicDiseases.includes("Respiratory Disease"))
   const [obesity, setObesity] = useState(chronicDiseases.includes("Obesity"))
@@ -49,19 +49,24 @@ const EditUserProfile = () =>{
             text: "Confirm",
             onPress: () => {
               fetch(`http://${IpAddress}:8080/api/user/${userId}/update`,{
-                method: 'POST',
+                method: 'PUT',
                 headers:{
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ height, weight, chronicDiseases: diseaseArray.toString(), smokingStatus: smokingString})
+                body: JSON.stringify({ height: parseInt(height, 'decimal')
+                                      , weight: parseInt(weight, 'decimal')
+                                      , chronicDiseases: diseaseArray
+                                      , smokingStatus: smokingString})
               })
               .then((res)=>{
                 return res.json();
               })
               .then((result) => {
-                console.log(result)
+                console.log(result);
+                navigation.navigate("UserProfile");
               })
-            },
+            }
+            ,
             style: "default",
           },
           {
@@ -77,57 +82,59 @@ const EditUserProfile = () =>{
             <Text style={styles.bannerText}>Edit Profile</Text>
           </View>
           <View style={{marginLeft:30}}>
-            <View>
-              <Text style={styles.header}>Weight</Text>
-              <View style={styles.inputView}>
-                <TextInput 
-                  style={styles.TextInput}
-                  placeholder={String(weight)}
-                  value={weight}
-                  onChangeText={setWeight}
-                  placeholderTextColor="#003f5c"
-                  keyboardType="number-pad"
-                />
+            <ScrollView>
+              <View>
+                <Text style={styles.header}>Weight</Text>
+                <View style={styles.inputView}>
+                  <TextInput 
+                    style={styles.TextInput}
+                    placeholder={String(weight)}
+                    value={weight}
+                    onChangeText={setWeight}
+                    placeholderTextColor="#003f5c"
+                    keyboardType="number-pad"
+                  />
+                </View>
               </View>
-            </View>
 
-            <View>
-              <Text style={styles.header}>Height</Text>
-              <View style={styles.inputView}>
-                <TextInput 
-                  style={styles.TextInput}
-                  value={height}
-                  placeholder={String(height)}
-                  onChangeText={setHeight}
-                  keyboardType="number-pad"
-                  placeholderTextColor="#003f5c"
-                />
+              <View>
+                <Text style={styles.header}>Height</Text>
+                <View style={styles.inputView}>
+                  <TextInput 
+                    style={styles.TextInput}
+                    value={height}
+                    placeholder={String(height)}
+                    onChangeText={setHeight}
+                    keyboardType="number-pad"
+                    placeholderTextColor="#003f5c"
+                  />
+                </View>
               </View>
-            </View>
 
-            <View>
-              <Text style={styles.header}>Chronic Diseases</Text>
-              <CustomCheckBox handleClick={handleClick} isChecked={cancer} setCheckbox={setCancer}textValue="Cancer" ></CustomCheckBox>
-              <CustomCheckBox handleClick={handleClick} isChecked={alzeimers} setCheckbox={setAlzeimers}textValue="Alzeimers"></CustomCheckBox>
-              <CustomCheckBox handleClick={handleClick} isChecked={osteoporosis} setCheckbox={setOsteoporosis}textValue="Osteoporosis"></CustomCheckBox>
-              <CustomCheckBox handleClick={handleClick} isChecked={diabeties} setCheckbox={setDiabeties}textValue="Diabetes"></CustomCheckBox>
-              <CustomCheckBox handleClick={handleClick} isChecked={heartDiesease} setCheckbox={setHeartDisease}textValue="Heart Disease"></CustomCheckBox>
-              <CustomCheckBox handleClick={handleClick} isChecked={respiratoryDiesease} setCheckbox={setRespiratoryDisease}textValue="Respiratory Disease"></CustomCheckBox>
-              <CustomCheckBox handleClick={handleClick} isChecked={obesity} setCheckbox={setObesity}textValue="Obesity"></CustomCheckBox>
-              <CustomCheckBox handleClick={handleClick} isChecked={arthritis} setCheckbox={setArthritis}textValue="Arthritis" ></CustomCheckBox>
-            </View>
-
-            <View>
-              <Text style={styles.header}>Smoking Status</Text>
-              <View style={{flexDirection:"row"}}>
-                <SmokingCheckBox textValue="Yes" isChecked={yes} setCheckbox={setYes} handleClick={handleSmokingClick} isOtherChecked={no} setIsOther={setNo} setSmokingString={setSmokingString}></SmokingCheckBox>
-                <SmokingCheckBox textValue="No" isChecked={no} setCheckbox={setNo} handleClick={handleSmokingClick} isOtherChecked={yes} setIsOther={setYes} setSmokingString={setSmokingString}></SmokingCheckBox>
+              <View>
+                <Text style={styles.header}>Chronic Diseases</Text>
+                <CustomCheckBox handleClick={handleClick} isChecked={cancer} setCheckbox={setCancer}textValue="Cancer" ></CustomCheckBox>
+                <CustomCheckBox handleClick={handleClick} isChecked={alzeimers} setCheckbox={setAlzeimers}textValue="Alzeimers"></CustomCheckBox>
+                <CustomCheckBox handleClick={handleClick} isChecked={osteoporosis} setCheckbox={setOsteoporosis}textValue="Osteoporosis"></CustomCheckBox>
+                <CustomCheckBox handleClick={handleClick} isChecked={diabeties} setCheckbox={setDiabeties}textValue="Diabetes"></CustomCheckBox>
+                <CustomCheckBox handleClick={handleClick} isChecked={heartDiesease} setCheckbox={setHeartDisease}textValue="Heart Disease"></CustomCheckBox>
+                <CustomCheckBox handleClick={handleClick} isChecked={respiratoryDiesease} setCheckbox={setRespiratoryDisease}textValue="Respiratory Disease"></CustomCheckBox>
+                <CustomCheckBox handleClick={handleClick} isChecked={obesity} setCheckbox={setObesity}textValue="Obesity"></CustomCheckBox>
+                <CustomCheckBox handleClick={handleClick} isChecked={arthritis} setCheckbox={setArthritis}textValue="Arthritis" ></CustomCheckBox>
               </View>
-            </View>
-            <Pressable
-              onPress={()=> showAlert()}>
-              <Text> update</Text>
-            </Pressable>
+
+              <View>
+                <Text style={styles.header}>Smoking Status</Text>
+                <View style={{flexDirection:"row"}}>
+                  <SmokingCheckBox textValue="Yes" isChecked={yes} setCheckbox={setYes} handleClick={handleSmokingClick} isOtherChecked={no} setIsOther={setNo} setSmokingString={setSmokingString}></SmokingCheckBox>
+                  <SmokingCheckBox textValue="No" isChecked={no} setCheckbox={setNo} handleClick={handleSmokingClick} isOtherChecked={yes} setIsOther={setYes} setSmokingString={setSmokingString}></SmokingCheckBox>
+                </View>
+              </View>
+              <Pressable
+                onPress={()=> showAlert()}>
+                <Text> update</Text>
+              </Pressable>
+            </ScrollView>
           </View>
         </View>
     )
