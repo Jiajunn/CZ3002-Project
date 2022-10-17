@@ -53,12 +53,12 @@ function LoginScreen(props) {
       >
         Eat Well Live Well
       </Text>
-      <Card
+      <View
         style={{
-          alignItems: "center",
-          marginLeft: 30,
-          marginRight: 30,
+          backgroundColor:"white",
           borderRadius: 10,
+          alignItems: "center",
+          width:"70%",
           paddingBottom: 50,
         }}
       >
@@ -91,9 +91,10 @@ function LoginScreen(props) {
             secureTextEntry
           />
         </TouchableOpacity>
-      </Card>
-      <Card
-        style={{alignItems: "center", backgroundColor:"transparent"}}>
+      </View>
+      <View
+        style={{alignItems: "center", backgroundColor: "transparent", width:"70%"}}
+        >
           <TouchableOpacity
           style={styles.buttonn}
           onPress={() => {
@@ -102,7 +103,7 @@ function LoginScreen(props) {
         >
           <Text
             style={{
-              textAlign: "centre",
+              textAlign: 'center',
               padding: 12,
               fontSize: 20,
             }}
@@ -116,7 +117,7 @@ function LoginScreen(props) {
         >
           <Text
             style={{
-              textAlign: "centre",
+              textAlign: "center",
               padding: 12,
               fontSize: 20,
             }}
@@ -124,8 +125,7 @@ function LoginScreen(props) {
             Register
           </Text>
         </TouchableOpacity>
-
-      </Card>
+      </View>
       
     </View>
   );
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     paddingTop: 100,
     backgroundColor: "#F3EDED",
     padding: 8,
+    alignItems:"center",
   },
   inputView: {
     width: 200,
@@ -160,8 +161,8 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     borderRadius: 10,
-    width: 338,
-    height: 45,
+    width: "100%",
+    height: 50,
     backgroundColor: "white",
     justifyContent: "center",
   },

@@ -6,7 +6,8 @@ import { StyleSheet } from "react-native";
         <BouncyCheckbox
             style={[{backgroundColor: isChecked ? "#8F9467" : "white"}, styles.inputView]
             }
-            iconStyle={{display:"none"}}
+            iconStyle={{ display:"none"}}
+            innerIconStyle={{ borderWidth:0}}
             text={textValue}
             textStyle={styles.TextInput}
             onPress={()=>{
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
       width: 235,
       height: 45,
       marginBottom: 10,
-      alignItems: "left",
+      alignItems: "flex-start",
       borderWidth: 3,
     },
     TextInput: {

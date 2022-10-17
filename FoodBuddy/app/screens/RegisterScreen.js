@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
-import { Card } from "react-native-paper";
 import CustomTextField from "../components/CustomTextField";
 import { RegisterContext } from "../contexts/RegisterContext";
 import { Keyboard } from "react-native";
@@ -27,25 +26,9 @@ export default function RegisterScreen(props) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <Card
-          style={{
-            backgroundColor: "#8F9467",
-            height: 140,
-            margin: -40,
-            marginBottom: 45,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 26,
-              marginTop: 87,
-              marginLeft: 100,
-              color: "white",
-            }}
-          >
-            Register
-          </Text>
-        </Card>
+        <View style={styles.banner}>
+          <Text style={styles.bannerText}>Register</Text>
+        </View>
         <ScrollView>
           <Text
             style={{
@@ -177,4 +160,17 @@ const styles = StyleSheet.create({
     padding: 8,
     marginLeft: 20,
   },
+  banner: {
+    backgroundColor: "#8F9467",
+    width: "100%",
+    height: "11%",
+    justifyContent: "flex-end",
+    paddingTop: "5%",
+  },
+  bannerText: {
+    fontSize: 30,
+    color: "white",
+    paddingLeft: 25,
+    marginBottom: 10,
+  }
 });

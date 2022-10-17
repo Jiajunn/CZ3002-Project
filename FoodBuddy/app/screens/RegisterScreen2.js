@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import CustomCheckBox from "../components/CustomCheckBox";
 import { RegisterContext } from "../contexts/RegisterContext";
@@ -35,31 +34,20 @@ export default function RegisterScreen2({route}) {
 
   return (
     <View style={styles.container}>
-      <Card
-        style={{
-          backgroundColor: "#8F9467",
-          height: 140,
-          margin: -40,
-          marginBottom: 40,
-        }}
+      <View
+        style={styles.banner}
       >
         <Pressable
           onPress={()=>{
             navigation.goBack()
           }}>
           <Text
-            style={{
-              fontSize: 26,
-              marginTop: 87,
-              marginLeft: 100,
-              color: "white",
-            }}
+            style={styles.bannerText}
           >
             Back
           </Text>
         </Pressable>
-        
-      </Card>
+      </View>
       <View>
         <Text
           style={{
@@ -113,4 +101,17 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 0,
     },
+    banner: {
+      backgroundColor: "#8F9467",
+      width: "100%",
+      height: "11%",
+      justifyContent: "flex-end",
+      paddingTop: "5%",
+    },
+    bannerText: {
+      fontSize: 30,
+      color: "white",
+      paddingLeft: 25,
+      marginBottom: 10,
+    }
 });
