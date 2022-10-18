@@ -56,7 +56,7 @@ const EditUserProfile = () =>{
                 },
                 body: JSON.stringify({ height: parseInt(height, 'decimal')
                                       , weight: parseInt(weight, 'decimal')
-                                      , chronicDiseases: diseaseArray
+                                      , chronicDiseases: diseaseArray.toString()
                                       , smokingStatus: smokingString})
               })
               .then((res)=>{
