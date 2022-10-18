@@ -8,13 +8,40 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { Card } from "react-native-paper";
+import UserPageDropDown from "../components/UserPageDropdown";
+import { useEffect , useContext, useState} from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { ActivityIndicator } from "react-native";
 
 export default function UserProfileScreen(props) {
+  const [isLoading, setIsLoading] = useState(true);
+  const {userId} = useContext(AuthContext);  
+  const [userProfile, setUserProfile] = useState();
+  useEffect(()=>{
+    
+    fetch(`http://${IpAddress}:8080/api/user/${userId}`)
+          .then((res) => {
+            return res.json();
+          })
+          .then((result) => {
+            setUserProfile(result);
+            setIsLoading(false);
+          })
+  }
+  )
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size={"large"}></ActivityIndicator>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
-        <Text style={styles.bannerText}> Profile </Text>
+        <Text style={styles.bannerText}>Profile </Text>
+        <UserPageDropDown 
+          user={{ height: userProfile.height, weight: userProfile.weight, chronicDiseases: userProfile.chronicDiseases, smokingStatus: userProfile.smokingStatus }}/>
       </View>
       <View style={{ marginTop: 20 }}>
         <Text
@@ -25,7 +52,6 @@ export default function UserProfileScreen(props) {
             marginBottom: 20,
           }}
         >
-          User's Profile
         </Text>
         <ImageBackground
           style={{ height: 150, width: 150, marginLeft: 135 }}
@@ -41,7 +67,7 @@ export default function UserProfileScreen(props) {
             marginBottom: 15,
           }}
         >
-          Username
+          {userProfile.username}
         </Text>
         <View
           style={{
@@ -51,7 +77,7 @@ export default function UserProfileScreen(props) {
           }}
         />
         <View style={{ marginLeft: 30 }}>
-          <Text
+          {/* <Text
             style={{
               fontSize: 20,
               marginLeft: 10,
@@ -64,7 +90,7 @@ export default function UserProfileScreen(props) {
           <TouchableOpacity style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
-              placeholder="72.3kg"
+              placeholder="hihi"
               placeholderTextColor="#003f5c"
             />
           </TouchableOpacity>
@@ -118,7 +144,40 @@ export default function UserProfileScreen(props) {
               placeholder="01/01/2022"
               placeholderTextColor="#003f5c"
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <View>
+            <Text style={styles.header}>Weight </Text>
+            <View
+              style={styles.inputView}>
+                <Text style={styles.TextInput}> {userProfile.weight}kg</Text>
+            </View>
+          </View>
+          <View>
+            <Text style={styles.header}>Height </Text>
+            <View
+              style={styles.inputView}>
+                <Text style={styles.TextInput}> {userProfile.height}cm</Text>
+            </View>
+          </View>
+          <View>
+            <Text style={styles.header}>Chronic Diseases </Text>
+            {userProfile.chronicDiseases.length == 0 
+            ?<Text style={styles.TextInput}> None</Text> 
+            : userProfile.chronicDiseases.map((item, i) =>{
+              return(
+                <View style={styles.inputView} key={i}>
+                    <Text style={styles.TextInput}>{item}</Text>
+                </View> 
+              )
+            })}
+          </View>
+          <View>
+            <Text style={styles.header}>Smoking Status </Text>
+            <View
+              style={styles.inputView}>
+                <Text style={styles.TextInput}> {userProfile.smokingStatus}</Text>
+            </View>
+          </View>
         </View>
       </View>
     </View>
@@ -135,7 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#8F9467",
     width: "100%",
     height: "11%",
-    justifyContent: "flex-end",
+    flexDirection: "row",
     paddingTop: "5%",
   },
   bannerText: {
@@ -159,4 +218,10 @@ const styles = StyleSheet.create({
     padding: 8,
     marginLeft: 20,
   },
+  header: {
+    fontSize: 20,
+    marginLeft: 10,
+    fontWeight: "bold",
+    marginBottom: 13,
+  }
 });

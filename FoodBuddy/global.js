@@ -1,6 +1,6 @@
 global.LoggedIn = false;
 
-global.IpAddress = "192.168.50.239";
+global.IpAddress = "192.168.0.195";
 //NTU ip = 10.27.9.194
 //JJ house ip = 192.168.1.117
 // yz school = 192.168.0.195

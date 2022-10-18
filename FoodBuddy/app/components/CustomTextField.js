@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         width: 235,
         height: 45,
         marginBottom: 20,
-        alignItems: "left",
+        alignItems:"flex-start"
       },
       TextInput: {
         height: 50,
