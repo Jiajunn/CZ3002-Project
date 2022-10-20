@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  ScrollView
 } from "react-native";
 import UserPageDropDown from "../components/UserPageDropdown";
 import { useEffect , useContext, useState} from "react";
@@ -126,7 +127,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#8F9467",
     width: "100%",
     height: "11%",
-    flexDirection: "row",
+    alignItems:"flex-end",
+    justifyContent:"space-between",
+    flexDirection:"row",
     paddingTop: "5%",
   },
   bannerText: {
@@ -134,6 +137,7 @@ const styles = StyleSheet.create({
     color: "white",
     paddingLeft: 25,
     marginBottom: 10,
+    flex:3
   },
   inputView: {
     backgroundColor: "#F3EDED",

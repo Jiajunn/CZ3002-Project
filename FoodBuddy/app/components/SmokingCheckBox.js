@@ -6,6 +6,7 @@ import { StyleSheet } from "react-native";
         <BouncyCheckbox
             style={[{backgroundColor: isChecked ? "#8F9467" : "white"}, styles.inputView]
             }
+            innerIconStyle={{borderWidth:0}}
             iconStyle={{display:"none"}}
             text={textValue}
             textStyle={styles.TextInput}

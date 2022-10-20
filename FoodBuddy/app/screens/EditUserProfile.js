@@ -79,12 +79,12 @@ const EditUserProfile = () =>{
       )};
     return(
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
+        <View style={styles.container} >
           <View style={styles.banner}>
             <Text style={styles.bannerText}>Edit Profile</Text>
           </View>
           <View style={{marginLeft:30}}>
-            <ScrollView>
+            <ScrollView >
               <View>
                 <Text style={styles.header}>Weight</Text>
                 <View style={styles.inputView}>
@@ -125,17 +125,18 @@ const EditUserProfile = () =>{
                 <CustomCheckBox handleClick={handleClick} isChecked={arthritis} setCheckbox={setArthritis}textValue="Arthritis" ></CustomCheckBox>
               </View>
 
-              <View>
+              <View >
                 <Text style={styles.header}>Smoking Status</Text>
                 <View style={{flexDirection:"row"}}>
                   <SmokingCheckBox textValue="Yes" isChecked={yes} setCheckbox={setYes} handleClick={handleSmokingClick} isOtherChecked={no} setIsOther={setNo} setSmokingString={setSmokingString}></SmokingCheckBox>
                   <SmokingCheckBox textValue="No" isChecked={no} setCheckbox={setNo} handleClick={handleSmokingClick} isOtherChecked={yes} setIsOther={setYes} setSmokingString={setSmokingString}></SmokingCheckBox>
                 </View>
-              </View>
-              <Pressable
+
+                <Pressable
                 onPress={()=> showAlert()}>
                 <Text> update</Text>
               </Pressable>
+              </View>
             </ScrollView>
           </View>
         </View>
@@ -145,7 +146,7 @@ const EditUserProfile = () =>{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex:1,
     backgroundColor: "white",
     padding: 0,
   },
@@ -181,7 +182,7 @@ const styles = StyleSheet.create({
     width: 235,
     height: 45,
     marginBottom: 20,
-    alignItems: "left",
+    alignItems: "flex-start",
   },
 })
 
