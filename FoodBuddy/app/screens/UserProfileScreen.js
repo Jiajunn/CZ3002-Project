@@ -62,7 +62,7 @@ export default function UserProfileScreen(props) {
           style={{
             fontSize: 25,
             marginLeft: 150,
-            alignItems: "centre",
+            alignItems: "center",
             fontWeight: "bold",
             marginBottom: 15,
           }}
@@ -77,74 +77,6 @@ export default function UserProfileScreen(props) {
           }}
         />
         <View style={{ marginLeft: 30 }}>
-          {/* <Text
-            style={{
-              fontSize: 20,
-              marginLeft: 10,
-              fontWeight: "bold",
-              marginBottom: 13,
-            }}
-          >
-            Weight
-          </Text>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="hihi"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <Text
-            style={{
-              fontSize: 20,
-              marginLeft: 10,
-              fontWeight: "bold",
-              marginBottom: 13,
-            }}
-          >
-            Height
-          </Text>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="180cm"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <Text
-            style={{
-              fontSize: 20,
-              marginLeft: 10,
-              fontWeight: "bold",
-              marginBottom: 13,
-            }}
-          >
-            Gender
-          </Text>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Male"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity>
-          <Text
-            style={{
-              fontSize: 20,
-              marginLeft: 10,
-              fontWeight: "bold",
-              marginBottom: 13,
-            }}
-          >
-            Birthdate
-          </Text>
-          <TouchableOpacity style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="01/01/2022"
-              placeholderTextColor="#003f5c"
-            />
-          </TouchableOpacity> */}
           <View>
             <Text style={styles.header}>Weight </Text>
             <View
@@ -209,7 +141,7 @@ const styles = StyleSheet.create({
     width: 325,
     height: 45,
     marginBottom: 20,
-    alignItems: "left",
+    alignItems: "flex-start",
   },
   TextInput: {
     height: 50,
