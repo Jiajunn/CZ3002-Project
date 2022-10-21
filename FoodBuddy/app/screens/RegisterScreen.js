@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import * as React from "react";
 import {
   Text,
@@ -12,6 +12,8 @@ import {
 import CustomTextField from "../components/CustomTextField";
 import { RegisterContext } from "../contexts/RegisterContext";
 import { Keyboard } from "react-native";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function RegisterScreen(props) {
   const { user, setUser} = useContext(RegisterContext);
@@ -19,9 +21,35 @@ export default function RegisterScreen(props) {
 
   const handleChange=(text, name)=> {
     console.log(text, name);
-    setUser(prev=> ({...prev, [name]: text}))
-    console.log(user)
+    setUser(prev=> ({...prev, [name]: text}));
+    console.log(user);
   }
+  const today = new Date(1598051730000);
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    const test = currentDate.toISOString().slice(0,10)
+    setShow(false);
+    setDate(currentDate);
+    setUser(prev=> ({...prev, 'date':test}))
+    console.log(user);
+  };
+
+  const showMode = (currentMode) => {
+    if (Platform.OS === 'android') {
+      setShow(false);
+      // for iOS, add a button that closes the picker
+    }
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+    setShow(true);
+  };
   
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -90,13 +118,18 @@ export default function RegisterScreen(props) {
               onChangeText={handleChange}
               keyboardType="number-pad">
             </CustomTextField>
-            <CustomTextField 
-              name="date" 
-              placeholder="DOB (YYYY-MM-DD)" 
-              value={user.date} 
-              onChangeText={handleChange}
-              keyboardType="default">
-            </CustomTextField>
+            <Pressable onPress={showDatepicker} style={styles.inputView}>
+              <Text style={styles.TextInput}> {date.toLocaleString() == today.toLocaleString() ? 'Date of Birth' : date.toISOString().slice(0,10)}</Text>
+              {show && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode={mode}
+                  is24Hour={true}
+                  onChange={onChange}
+                />
+              )}
+            </Pressable>
             <CustomTextField 
               name="gender" 
               placeholder="Gender" 
@@ -151,9 +184,10 @@ const styles = StyleSheet.create({
     width: 235,
     height: 45,
     marginBottom: 20,
-    alignItems: "left",
+    alignItems: "flex-start",
   },
   TextInput: {
+    color:"#003f5c",
     height: 50,
     fontSize: 20,
     flex: 1,

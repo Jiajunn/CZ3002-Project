@@ -10,7 +10,7 @@ export const RegisterProvider = ({children})=>{
         lastName: "", 
         height: "", 
         weight: "", 
-        date: "", 
+        date: new Date(1598051730000), 
         gender: "",
       });
 

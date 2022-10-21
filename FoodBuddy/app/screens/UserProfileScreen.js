@@ -13,11 +13,14 @@ import UserPageDropDown from "../components/UserPageDropdown";
 import { useEffect , useContext, useState} from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { ActivityIndicator } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function UserProfileScreen(props) {
   const [isLoading, setIsLoading] = useState(true);
   const {userId} = useContext(AuthContext);  
   const [userProfile, setUserProfile] = useState();
+  const [diseaseClean, setDiseaseClean] = useState([]);
+  const isFocused = useIsFocused();
   useEffect(()=>{
     
     fetch(`http://${IpAddress}:8080/api/user/${userId}`)
@@ -26,9 +29,12 @@ export default function UserProfileScreen(props) {
           })
           .then((result) => {
             setUserProfile(result);
+            setDiseaseClean(result.chronicDiseases);
+            
+            setDiseaseClean(diseaseClean => diseaseClean.filter(i => i!=''));
             setIsLoading(false);
           })
-  }
+  },[isFocused]
   )
   if (isLoading) {
     return (
@@ -44,7 +50,7 @@ export default function UserProfileScreen(props) {
         <UserPageDropDown 
           user={{ height: userProfile.height, weight: userProfile.weight, chronicDiseases: userProfile.chronicDiseases, smokingStatus: userProfile.smokingStatus }}/>
       </View>
-      <View style={{ marginTop: 20 }}>
+      <View >
         <Text
           style={{
             fontSize: 25,
@@ -71,12 +77,14 @@ export default function UserProfileScreen(props) {
           {userProfile.username}
         </Text>
         <View
-          style={{
-            borderBottomColor: "black",
-            borderBottomWidth: 3,
-            marginBottom: 10,
-          }}
+            style={{
+              borderBottomColor: "black",
+              borderBottomWidth: 3,
+              marginBottom: 10,
+            }}
         />
+      </View>
+      <ScrollView>
         <View style={{ marginLeft: 30 }}>
           <View>
             <Text style={styles.header}>Weight </Text>
@@ -94,9 +102,9 @@ export default function UserProfileScreen(props) {
           </View>
           <View>
             <Text style={styles.header}>Chronic Diseases </Text>
-            {userProfile.chronicDiseases.length == 0 
+            {diseaseClean.length == 0 
             ?<Text style={styles.TextInput}> None</Text> 
-            : userProfile.chronicDiseases.map((item, i) =>{
+            : diseaseClean.map((item, i) =>{
               return(
                 <View style={styles.inputView} key={i}>
                     <Text style={styles.TextInput}>{item}</Text>
@@ -112,7 +120,7 @@ export default function UserProfileScreen(props) {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
