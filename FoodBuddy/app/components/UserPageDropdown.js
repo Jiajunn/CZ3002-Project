@@ -20,30 +20,30 @@ const UserPageDropDown = ({user}) =>{
             "Confirm Logout?",
             [
               {
-                text: "Confirm",
-                onPress: () => {logout()},
-                style: "default",
-              },
-              {
                 text: "Cancel",
                 onPress: () => {},
                 style: "cancel",
+              },
+              {
+                text: "Confirm",
+                onPress: () => {logout()},
+                style: "default",
               },
             ],
           )};
     return(
         <DropDownPicker
-          style={{ borderColor:"transparent", backgroundColor:"transparent"}}
+          style={{borderColor:"transparent", backgroundColor:"transparent"}}
           open={open}
           value={value}
           items={items}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
-          ArrowUpIconComponent={()=> <Ionicons name="ellipsis-vertical-sharp" size={30} color="white"></Ionicons>}
-          ArrowDownIconComponent={()=> <Ionicons name="ellipsis-vertical-sharp" size={30} color="white"></Ionicons>}
-          containerStyle={{width:100, marginLeft:"70%"}}
-          dropDownContainerStyle={{borderColor:"transparent", backgroundColor:"transparent", marginTop:40}}
+          ArrowUpIconComponent={()=> <Ionicons name="ellipsis-vertical-sharp" size={35} color="white"></Ionicons>}
+          ArrowDownIconComponent={()=> <Ionicons name="ellipsis-vertical-sharp" size={35} color="white"></Ionicons>}
+          containerStyle={{flex:1}}
+          dropDownContainerStyle={{borderColor:"transparent", backgroundColor:"transparent", marginTop:"1%", width:200, zIndex:999}}
           placeholderStyle={{display:"none"}}
           labelStyle={{display:"none"}}
           closeAfterSelecting={true}

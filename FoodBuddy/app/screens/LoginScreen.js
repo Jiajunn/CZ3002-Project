@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { Card } from "react-native-paper";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import registerScreen from "./RegisterScreen";
