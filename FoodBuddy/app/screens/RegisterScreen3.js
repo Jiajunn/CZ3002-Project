@@ -14,115 +14,140 @@ import { useState, useContext } from "react";
 import SmokingCheckBox from "../components/SmokingCheckBox";
 import { RegisterContext } from "../contexts/RegisterContext";
 import { useNavigation } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default function RegisterScreen3({route}) {
+export default function RegisterScreen3({ route }) {
   const navigation = useNavigation();
-  const {user} = useContext(RegisterContext);
+  const { user } = useContext(RegisterContext);
   const [yes, setYes] = useState(false);
   const [no, setNo] = useState(true);
-  const [smokingString, setSmokingString] = useState("No")
-  const handleClick =(textValue, setCheckbox, isChecked, isOtherChecked, setIsOther, setSmokingString)=>{
-    if(textValue!= smokingString){
+  const [smokingString, setSmokingString] = useState("No");
+  const handleClick = (
+    textValue,
+    setCheckbox,
+    isChecked,
+    isOtherChecked,
+    setIsOther,
+    setSmokingString
+  ) => {
+    if (textValue != smokingString) {
       setCheckbox(!isChecked);
       setIsOther(!isOtherChecked);
       setSmokingString(textValue);
     }
-  }
+  };
   return (
     <View style={styles.container}>
-      <Card
-        style={{
-          backgroundColor: "#8F9467",
-          height: 140,
-          margin: -40,
-          marginBottom: 40,
-        }}
-      >
+      <View style={styles.banner}>
         <Pressable
-          onPress={()=>{
-            navigation.goBack()
-          }}>
-          <Text
+          style={{ width: "10%" }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Ionicons
+            name="chevron-back-outline"
             style={{
-              fontSize: 26,
-              marginTop: 87,
-              marginLeft: 100,
+              fontSize: 35,
+              paddingLeft: 10,
+              paddingBottom: 8,
               color: "white",
             }}
-          >
-            Back
-          </Text>
+          />
         </Pressable>
-      </Card>
-      <Text
-        style={{
-          fontSize: 25,
-          marginLeft: 20,
-          fontWeight: "bold",
-          marginBottom: 10,
-        }}
-      >
-        Smoking Habits
-      </Text>
-      <Text style={{ fontSize: 20, marginLeft: 20, marginBottom: 10 }}>
-        Do you smoke?
-      </Text>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          padding: 20,
-          marginLeft: 10,
-        }}
-      >
-        <SmokingCheckBox textValue="Yes" isChecked={yes} setCheckbox={setYes} handleClick={handleClick} isOtherChecked={no} setIsOther={setNo} setSmokingString={setSmokingString}></SmokingCheckBox>
-        <SmokingCheckBox textValue="No" isChecked={no} setCheckbox={setNo} handleClick={handleClick} isOtherChecked={yes} setIsOther={setYes} setSmokingString={setSmokingString}></SmokingCheckBox>
       </View>
-      <TouchableOpacity
-        
-        style={{
-          backgroundColor: "#8F9467",
-          paddingTop: 10,
-          width: 275,
-          height: 45,
-          marginLeft: 30,
-          marginTop: 30,
-        }}
-        onPress={()=>{
-          user.smokingStatus= smokingString;
-          let temp = user.height;
-          user.height = parseInt(temp, 'decimal');
-          temp = user.weight; 
-          user.weight = parseInt(temp, 'decimal');
-          console.log({...user})
-          fetch(`http://${IpAddress}:8080/api/auth/signup`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({...user})
-          })
-          .then((res) => {
-            return res.json();
-          })
-          .then((result) => {
-            if(result.success == true){
-              alert("Successfully registered");
-              navigation.navigate("Login");
-            }
-            else{
-              alert(result.message);
-              navigation.navigate("RegisterScreen"); 
-            }
-          })}}
-      >
+      <View style={{ alignItems: "center" }}>
         <Text
-          
-          style={{ textAlign: "center", height: 50, fontSize: 20, flex: 1, color:"white", fontWeight: "500"}}
+          style={{
+            paddingTop: 25,
+            fontSize: 25,
+            marginLeft: 20,
+            fontWeight: "bold",
+            marginBottom: 15,
+          }}
         >
-          REGISTER MY ACCOUNT
+          Smoking Habits
         </Text>
-      </TouchableOpacity>
+        <Text style={{ fontSize: 20, marginLeft: 20, marginBottom: 10 }}>
+          Do you smoke?
+        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginLeft: 10,
+          }}
+        >
+          <SmokingCheckBox
+            textValue="Yes"
+            isChecked={yes}
+            setCheckbox={setYes}
+            handleClick={handleClick}
+            isOtherChecked={no}
+            setIsOther={setNo}
+            setSmokingString={setSmokingString}
+          ></SmokingCheckBox>
+          <SmokingCheckBox
+            textValue="No"
+            isChecked={no}
+            setCheckbox={setNo}
+            handleClick={handleClick}
+            isOtherChecked={yes}
+            setIsOther={setYes}
+            setSmokingString={setSmokingString}
+          ></SmokingCheckBox>
+        </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#8F9467",
+            paddingTop: 10,
+            width: 275,
+            height: 45,
+            marginLeft: 30,
+            marginTop: 30,
+          }}
+          onPress={() => {
+            user.smokingStatus = smokingString;
+            let temp = user.height;
+            user.height = parseInt(temp, "decimal");
+            temp = user.weight;
+            user.weight = parseInt(temp, "decimal");
+            console.log({ ...user });
+            fetch(`http://${IpAddress}:8080/api/auth/signup`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ ...user }),
+            })
+              .then((res) => {
+                return res.json();
+              })
+              .then((result) => {
+                if (result.success == true) {
+                  alert("Successfully registered");
+                  navigation.navigate("Login");
+                } else {
+                  alert(result.message);
+                  navigation.navigate("RegisterScreen");
+                }
+              });
+          }}
+        >
+          <Text
+            style={{
+              textAlign: "center",
+              height: 50,
+              fontSize: 20,
+              flex: 1,
+              color: "white",
+              fontWeight: "500",
+            }}
+          >
+            REGISTER MY ACCOUNT
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -149,5 +174,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 8,
     marginLeft: 20,
+  },
+  banner: {
+    backgroundColor: "#8F9467",
+    width: "100%",
+    height: "11%",
+    justifyContent: "flex-end",
+    paddingTop: "5%",
   },
 });

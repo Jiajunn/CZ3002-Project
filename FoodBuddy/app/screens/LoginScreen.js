@@ -23,13 +23,13 @@ function LoginScreenStack() {
   return (
     <RegisterProvider>
       <NavigationContainer independent={true}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="RegisterScreen" component={registerScreen} />
-        <Stack.Screen name="RegisterScreen2" component={registerScreen2} />
-        <Stack.Screen name="RegisterScreen3" component={registerScreen3} />
-      </Stack.Navigator>
-    </NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="RegisterScreen" component={registerScreen} />
+          <Stack.Screen name="RegisterScreen2" component={registerScreen2} />
+          <Stack.Screen name="RegisterScreen3" component={registerScreen3} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </RegisterProvider>
   );
 }
@@ -52,49 +52,52 @@ function LoginScreen(props) {
       >
         Eat Well Live Well
       </Text>
-      <View
-        style={{
-          backgroundColor:"white",
-          borderRadius: 10,
-          alignItems: "center",
-          width:"70%",
-          paddingBottom: 50,
-        }}
-      >
+      <View style={styles.credContainer}>
         <Text
           style={{
             marginTop: 20,
             fontSize: 30,
             textAlign: "center",
-            marginBottom: 80,
           }}
         >
           Welcome
         </Text>
-        <TouchableOpacity style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Username"
-            placeholderTextColor="#003f5c"
-            value={usernameOrEmail}
-            onChangeText={setUsernameOrEmail}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Password"
-            placeholderTextColor="#003f5c"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-        </TouchableOpacity>
+        <View style={styles.row}>
+          <Text style={styles.text}>Your username:</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.TextInput}
+              autoCapitalize="none"
+              placeholder="e.g. patrick123"
+              placeholderTextColor="#003f5c"
+              value={usernameOrEmail}
+              onChangeText={setUsernameOrEmail}
+            />
+          </View>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.text}>Your password: </Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder="e.g. ilovemango123"
+              placeholderTextColor="#003f5c"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+          </View>
+        </View>
       </View>
       <View
-        style={{alignItems: "center", backgroundColor: "transparent", width:"70%"}}
-        >
-          <TouchableOpacity
+        style={{
+          alignItems: "center",
+          backgroundColor: "transparent",
+          width: "70%",
+        }}
+      >
+        <TouchableOpacity
           style={styles.buttonn}
           onPress={() => {
             login(usernameOrEmail, password);
@@ -102,7 +105,7 @@ function LoginScreen(props) {
         >
           <Text
             style={{
-              textAlign: 'center',
+              textAlign: "center",
               padding: 12,
               fontSize: 20,
             }}
@@ -125,23 +128,28 @@ function LoginScreen(props) {
           </Text>
         </TouchableOpacity>
       </View>
-      
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  credContainer: {
+    height: "50%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignItems: "center",
+    width: "70%",
+  },
   container: {
     flex: 1,
     paddingTop: 100,
     backgroundColor: "#F3EDED",
     padding: 8,
-    alignItems:"center",
+    alignItems: "center",
   },
   inputView: {
-    width: 200,
+    width: "100%",
     height: 45,
-    marginBottom: 20,
     alignItems: "center",
   },
   paragraph: {
@@ -151,8 +159,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   TextInput: {
+    width: "100%",
+    fontSize: 18,
     textAlign: "center",
-    borderBottomWidth: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   buttonn: {
     alignItems: "center",
@@ -164,6 +175,21 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "white",
     justifyContent: "center",
+  },
+  row: {
+    width: "90%",
+    paddingTop: "15%",
+  },
+  text: {
+    fontSize: 17,
+    paddingBottom: 10,
+  },
+  inputContainer: {
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 5,
+    borderColor: "#000000",
+    borderWidth: 1,
   },
 });
 

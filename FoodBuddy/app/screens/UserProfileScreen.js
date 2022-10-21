@@ -7,35 +7,33 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import UserPageDropDown from "../components/UserPageDropdown";
-import { useEffect , useContext, useState} from "react";
+import { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { ActivityIndicator } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function UserProfileScreen(props) {
   const [isLoading, setIsLoading] = useState(true);
-  const {userId} = useContext(AuthContext);  
+  const { userId } = useContext(AuthContext);
   const [userProfile, setUserProfile] = useState();
   const [diseaseClean, setDiseaseClean] = useState([]);
   const isFocused = useIsFocused();
-  useEffect(()=>{
-    
+  useEffect(() => {
     fetch(`http://${IpAddress}:8080/api/user/${userId}`)
-          .then((res) => {
-            return res.json();
-          })
-          .then((result) => {
-            setUserProfile(result);
-            setDiseaseClean(result.chronicDiseases);
-            
-            setDiseaseClean(diseaseClean => diseaseClean.filter(i => i!=''));
-            setIsLoading(false);
-          })
-  },[isFocused]
-  )
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        setUserProfile(result);
+        setDiseaseClean(result.chronicDiseases);
+
+        setDiseaseClean((diseaseClean) => diseaseClean.filter((i) => i != ""));
+        setIsLoading(false);
+      });
+  }, [isFocused]);
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -47,10 +45,18 @@ export default function UserProfileScreen(props) {
     <View style={styles.container}>
       <View style={styles.banner}>
         <Text style={styles.bannerText}>Profile </Text>
-        <UserPageDropDown 
-          user={{ height: userProfile.height, weight: userProfile.weight, chronicDiseases: userProfile.chronicDiseases, smokingStatus: userProfile.smokingStatus }}/>
+        <View style={{ height: 50 }}>
+          <UserPageDropDown
+            user={{
+              height: userProfile.height,
+              weight: userProfile.weight,
+              chronicDiseases: userProfile.chronicDiseases,
+              smokingStatus: userProfile.smokingStatus,
+            }}
+          />
+        </View>
       </View>
-      <View >
+      <View>
         <Text
           style={{
             fontSize: 25,
@@ -58,8 +64,7 @@ export default function UserProfileScreen(props) {
             fontWeight: "bold",
             marginBottom: 20,
           }}
-        >
-        </Text>
+        ></Text>
         <ImageBackground
           style={{ height: 150, width: 150, marginLeft: 135 }}
           source={require("../assets/user.png")}
@@ -77,46 +82,45 @@ export default function UserProfileScreen(props) {
           {userProfile.username}
         </Text>
         <View
-            style={{
-              borderBottomColor: "black",
-              borderBottomWidth: 3,
-              marginBottom: 10,
-            }}
+          style={{
+            borderBottomColor: "black",
+            borderBottomWidth: 3,
+            marginBottom: 10,
+          }}
         />
       </View>
       <ScrollView>
         <View style={{ marginLeft: 30 }}>
           <View>
             <Text style={styles.header}>Weight </Text>
-            <View
-              style={styles.inputView}>
-                <Text style={styles.TextInput}> {userProfile.weight}kg</Text>
+            <View style={styles.inputView}>
+              <Text style={styles.TextInput}> {userProfile.weight}kg</Text>
             </View>
           </View>
           <View>
             <Text style={styles.header}>Height </Text>
-            <View
-              style={styles.inputView}>
-                <Text style={styles.TextInput}> {userProfile.height}cm</Text>
+            <View style={styles.inputView}>
+              <Text style={styles.TextInput}> {userProfile.height}cm</Text>
             </View>
           </View>
           <View>
             <Text style={styles.header}>Chronic Diseases </Text>
-            {diseaseClean.length == 0 
-            ?<Text style={styles.TextInput}> None</Text> 
-            : diseaseClean.map((item, i) =>{
-              return(
-                <View style={styles.inputView} key={i}>
+            {diseaseClean.length == 0 ? (
+              <Text style={styles.TextInput}> None</Text>
+            ) : (
+              diseaseClean.map((item, i) => {
+                return (
+                  <View style={styles.inputView} key={i}>
                     <Text style={styles.TextInput}>{item}</Text>
-                </View> 
-              )
-            })}
+                  </View>
+                );
+              })
+            )}
           </View>
           <View>
             <Text style={styles.header}>Smoking Status </Text>
-            <View
-              style={styles.inputView}>
-                <Text style={styles.TextInput}> {userProfile.smokingStatus}</Text>
+            <View style={styles.inputView}>
+              <Text style={styles.TextInput}> {userProfile.smokingStatus}</Text>
             </View>
           </View>
         </View>
@@ -135,9 +139,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#8F9467",
     width: "100%",
     height: "11%",
-    alignItems:"flex-end",
-    justifyContent:"space-between",
-    flexDirection:"row",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    flexDirection: "row",
     paddingTop: "5%",
   },
   bannerText: {
@@ -145,7 +149,7 @@ const styles = StyleSheet.create({
     color: "white",
     paddingLeft: 25,
     marginBottom: 10,
-    flex:3
+    flex: 3,
   },
   inputView: {
     backgroundColor: "#F3EDED",
@@ -167,5 +171,5 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontWeight: "bold",
     marginBottom: 13,
-  }
+  },
 });
