@@ -162,8 +162,7 @@ const styles = StyleSheet.create({
     width: "100%",
     fontSize: 18,
     textAlign: "center",
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingVertical: 5,
   },
   buttonn: {
     alignItems: "center",

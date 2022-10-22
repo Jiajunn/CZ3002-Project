@@ -14,25 +14,32 @@ import { RegisterContext } from "../contexts/RegisterContext";
 import { Keyboard } from "react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import DropDownPicker from "react-native-dropdown-picker";
 
 export default function RegisterScreen(props) {
   const { user, setUser } = useContext(RegisterContext);
   const navigation = useNavigation();
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
+    { label: "Prefer not to say", value: "Prefer not to say" },
+  ]);
 
   const handleChange = (text, name) => {
     console.log(text, name);
     setUser((prev) => ({ ...prev, [name]: text }));
     console.log(user);
   };
-  const today = new Date(1598051730000);
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     const test = currentDate.toISOString().slice(0, 10);
-    setShow(false);
     setDate(currentDate);
     setUser((prev) => ({ ...prev, date: test }));
     console.log(user);
@@ -41,14 +48,12 @@ export default function RegisterScreen(props) {
   const showMode = (currentMode) => {
     if (Platform.OS === "android") {
       setShow(false);
-      // for iOS, add a button that closes the picker
     }
     setMode(currentMode);
   };
 
   const showDatepicker = () => {
     showMode("date");
-    setShow(true);
   };
 
   return (
@@ -69,7 +74,10 @@ export default function RegisterScreen(props) {
           Personal Information
         </Text>
         <View style={{ height: "70%", paddingBottom: "10%" }}>
-          <ScrollView style={{ width: "100%", paddingLeft: 20 }}>
+          <ScrollView
+            style={{ width: "100%", paddingLeft: 20 }}
+            nestedScrollEnabled={true}
+          >
             <CustomTextField
               name="username"
               placeholder="Username"
@@ -119,29 +127,44 @@ export default function RegisterScreen(props) {
               onChangeText={handleChange}
               keyboardType="number-pad"
             ></CustomTextField>
-            <Pressable onPress={showDatepicker} style={styles.inputView}>
-              <Text style={styles.TextInput}>
-                {date.toLocaleString() == today.toLocaleString()
-                  ? "Date of Birth"
-                  : date.toISOString().slice(0, 10)}
-              </Text>
-              {show && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  mode={mode}
-                  is24Hour={true}
-                  onChange={onChange}
-                />
-              )}
-            </Pressable>
-            <CustomTextField
-              name="gender"
-              placeholder="Gender"
-              value={user.gender}
-              onChangeText={handleChange}
-              keyboardType="default"
-            ></CustomTextField>
+            <View>
+              <Text style={styles.text}>Date of Birth:</Text>
+              <Pressable onPress={showDatepicker} style={styles.inputView}>
+                {!show && <Text style={styles.TextInput} />}
+                {show && (
+                  <View style={{ paddingTop: 5, width: "100%" }}>
+                    <DateTimePicker
+                      style={{ width: "50%" }}
+                      testID="dateTimePicker"
+                      value={date}
+                      mode={mode}
+                      is24Hour={true}
+                      onChange={onChange}
+                    />
+                  </View>
+                )}
+              </Pressable>
+            </View>
+            <View style={{ width: "70%" }}>
+              <Text style={styles.text}>Gender:</Text>
+              <DropDownPicker
+                style={{
+                  backgroundColor: "#F3EDED",
+                  borderColor: "transparent",
+                  borderRadius: 30,
+                }}
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                listMode="SCROLLVIEW"
+                onChangeValue={() => {
+                  handleChange(value, "gender");
+                }}
+              />
+            </View>
           </ScrollView>
         </View>
         <View style={{ alignItems: "center" }}>
@@ -191,7 +214,7 @@ const styles = StyleSheet.create({
   inputView: {
     backgroundColor: "#F3EDED",
     borderRadius: 30,
-    width: 235,
+    width: "70%",
     height: 45,
     marginBottom: 20,
     alignItems: "flex-start",
@@ -216,5 +239,9 @@ const styles = StyleSheet.create({
     color: "white",
     paddingLeft: 25,
     marginBottom: 10,
+  },
+  text: {
+    paddingBottom: 10,
+    fontSize: 17,
   },
 });

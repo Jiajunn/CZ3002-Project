@@ -33,9 +33,10 @@ const UserPageDropDown = ({ user }) => {
   return (
     <DropDownPicker
       style={{
+        flexDirection: "row",
+        justifyContent: "flex-end",
         borderColor: "transparent",
         backgroundColor: "transparent",
-        elevation: 10,
       }}
       open={open}
       value={value}
@@ -59,11 +60,8 @@ const UserPageDropDown = ({ user }) => {
       )}
       containerStyle={{ flex: 1 }}
       dropDownContainerStyle={{
-        borderColor: "transparent",
-        backgroundColor: "green",
-        marginTop: "1%",
-        width: 200,
-        zIndex: 999,
+        borderColor: "black",
+        backgroundColor: "transparent",
       }}
       placeholderStyle={{ display: "none" }}
       labelStyle={{ display: "none" }}

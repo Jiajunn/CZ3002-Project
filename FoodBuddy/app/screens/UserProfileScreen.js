@@ -45,18 +45,16 @@ export default function UserProfileScreen(props) {
     <View style={styles.container}>
       <View style={styles.banner}>
         <Text style={styles.bannerText}>Profile </Text>
-        <View style={{ height: 50 }}>
-          <UserPageDropDown
-            user={{
-              height: userProfile.height,
-              weight: userProfile.weight,
-              chronicDiseases: userProfile.chronicDiseases,
-              smokingStatus: userProfile.smokingStatus,
-            }}
-          />
-        </View>
+        <UserPageDropDown
+          user={{
+            height: userProfile.height,
+            weight: userProfile.weight,
+            chronicDiseases: userProfile.chronicDiseases,
+            smokingStatus: userProfile.smokingStatus,
+          }}
+        />
       </View>
-      <View>
+      <View style={{ zIndex: -1 }}>
         <Text
           style={{
             fontSize: 25,
@@ -65,22 +63,29 @@ export default function UserProfileScreen(props) {
             marginBottom: 20,
           }}
         ></Text>
-        <ImageBackground
-          style={{ height: 150, width: 150, marginLeft: 135 }}
-          source={require("../assets/user.png")}
-        />
 
-        <Text
+        <View
           style={{
-            fontSize: 25,
-            marginLeft: 150,
             alignItems: "center",
-            fontWeight: "bold",
-            marginBottom: 15,
+            width: "100%",
           }}
         >
-          {userProfile.username}
-        </Text>
+          <ImageBackground
+            style={{ height: 150, width: 150 }}
+            source={require("../assets/user.png")}
+          />
+          <Text
+            style={{
+              paddingTop: 10,
+              fontSize: 25,
+              fontWeight: "bold",
+              marginBottom: 15,
+            }}
+          >
+            {userProfile.username}
+          </Text>
+        </View>
+
         <View
           style={{
             borderBottomColor: "black",
@@ -128,7 +133,6 @@ export default function UserProfileScreen(props) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -143,11 +147,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     paddingTop: "5%",
+    zIndex: 1,
   },
   bannerText: {
     fontSize: 30,
     color: "white",
-    paddingLeft: 25,
+    paddingLeft: 32,
     marginBottom: 10,
     flex: 3,
   },
