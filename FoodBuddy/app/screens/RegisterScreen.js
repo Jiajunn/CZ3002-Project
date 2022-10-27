@@ -62,21 +62,25 @@ export default function RegisterScreen(props) {
         <View style={styles.banner}>
           <Text style={styles.bannerText}>Register</Text>
         </View>
-        <Text
-          style={{
-            fontSize: 25,
-            paddingTop: 20,
-            marginLeft: 20,
-            fontWeight: "bold",
-            marginBottom: 20,
-          }}
-        >
-          Personal Information
-        </Text>
+        <View style={{ width: "100%", alignItems: "center" }}>
+          <Text
+            style={{
+              fontSize: 25,
+              paddingTop: 20,
+              marginLeft: 20,
+              fontWeight: "bold",
+              marginBottom: 20,
+            }}
+          >
+            Personal Information
+          </Text>
+        </View>
+
         <View style={{ height: "70%", paddingBottom: "10%" }}>
           <ScrollView
             style={{ width: "100%", paddingLeft: 20 }}
             nestedScrollEnabled={true}
+            contentContainerStyle={{ alignItems: "center" }}
           >
             <CustomTextField
               name="username"
@@ -127,23 +131,34 @@ export default function RegisterScreen(props) {
               onChangeText={handleChange}
               keyboardType="number-pad"
             ></CustomTextField>
-            <View>
-              <Text style={styles.text}>Date of Birth:</Text>
-              <Pressable onPress={showDatepicker} style={styles.inputView}>
-                {!show && <Text style={styles.TextInput} />}
-                {show && (
-                  <View style={{ paddingTop: 5, width: "100%" }}>
-                    <DateTimePicker
-                      style={{ width: "50%" }}
-                      testID="dateTimePicker"
-                      value={date}
-                      mode={mode}
-                      is24Hour={true}
-                      onChange={onChange}
-                    />
-                  </View>
-                )}
-              </Pressable>
+            <View style={{ width: "100%" }}>
+              <Text
+                style={{ paddingBottom: 10, fontSize: 17, paddingLeft: 65 }}
+              >
+                Date of Birth:
+              </Text>
+              <View style={{ width: "100%", alignItems: "center" }}>
+                <Pressable onPress={showDatepicker} style={styles.inputView}>
+                  {show && (
+                    <View
+                      style={{
+                        width: "100%",
+                        justifyContent: "center",
+                        height: "100%",
+                      }}
+                    >
+                      <DateTimePicker
+                        style={{ width: "70%" }}
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        onChange={onChange}
+                      />
+                    </View>
+                  )}
+                </Pressable>
+              </View>
             </View>
             <View style={{ width: "70%" }}>
               <Text style={styles.text}>Gender:</Text>
@@ -153,6 +168,7 @@ export default function RegisterScreen(props) {
                   borderColor: "transparent",
                   borderRadius: 30,
                 }}
+                placeholder="Please select your gender"
                 open={open}
                 value={value}
                 items={items}
@@ -220,12 +236,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   TextInput: {
-    color: "#003f5c",
     height: 50,
-    fontSize: 20,
     flex: 1,
-    padding: 8,
-    marginLeft: 20,
   },
   banner: {
     backgroundColor: "#8F9467",
@@ -243,5 +255,6 @@ const styles = StyleSheet.create({
   text: {
     paddingBottom: 10,
     fontSize: 17,
+    paddingLeft: 7,
   },
 });

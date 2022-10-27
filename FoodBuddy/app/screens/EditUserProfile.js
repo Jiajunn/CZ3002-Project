@@ -114,8 +114,11 @@ const EditUserProfile = () => {
         <View style={styles.banner}>
           <Text style={styles.bannerText}>Edit Profile</Text>
         </View>
-        <View style={{ paddingBottom: 25, height: "80%" }}>
-          <ScrollView style={{ marginLeft: 30, paddingTop: 30 }}>
+        <View style={{ paddingBottom: 25, height: "80%", width: "100%" }}>
+          <ScrollView
+            style={{ paddingTop: 30 }}
+            contentContainerStyle={{ alignItems: "center" }}
+          >
             <View>
               <Text style={styles.header}>Weight:</Text>
               <View style={styles.inputView}>
