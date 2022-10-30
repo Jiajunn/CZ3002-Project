@@ -72,7 +72,7 @@ function FoodLogCard(props) {
             {
               backgroundColor: pressed ? "#7f7f7f" : "white",
             },
-            { width: 100 },
+            { width: 90 },
           ]}
         >
           <Text style={styles.moreInfoButton}>See more info</Text>
