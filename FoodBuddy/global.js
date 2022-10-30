@@ -14,16 +14,16 @@ const year = today.getFullYear();
 global.TodayDate = year + "-" + month + "-" + day;
 
 global.nutrients = [
-  "Calcium",
-  "Calorie",
-  "Potassium",
-  "Protein",
-  "VitaminB2",
-  "VitaminA",
-  "VitaminC",
-  "VitaminD",
-  "Sugar",
-  "Sodium",
-  "Zinc",
-  "Carbs",
+  "Calcium/mg",
+  "Calorie/kcal",
+  "Potassium/mg",
+  "Protein/g",
+  "VitaminB2/mg",
+  "VitaminA/mcg",
+  "VitaminC/mg",
+  "VitaminD/iu",
+  "Sugar/g",
+  "Sodium/mg",
+  "Zinc/mg",
+  "Carbs/g",
 ];

@@ -1,8 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Text, View, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  Modal,
+} from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import DropDownPicker from "react-native-dropdown-picker";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Entypo from "react-native-vector-icons/Entypo";
 
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -12,13 +20,22 @@ function NutrientLog(props) {
     array.push({ label: item, value: item });
   });
   const [open, setOpen] = useState(false);
+  const [clicked, setClicked] = useState(false);
   const [value, setValue] = useState([]);
   const [items, setItems] = useState(array);
-  const [reco, setReco] = useState([]);
+  const [open2, setOpen2] = useState(false);
+  const [value2, setValue2] = useState([]);
+  const [items2, setItems2] = useState([
+    { label: "Mains", value: "mains" },
+    { label: "Drinks", value: "drinks" },
+  ]);
+  const [mains, setMains] = useState([]);
+  const [drinks, setDrinks] = useState([]);
   const [nutri, setNutri] = useState([]);
-  const [gotReco, setGotReco] = useState(false);
   const { userId } = useContext(AuthContext);
   const [data, setData] = useState([]);
+  const [reco, setReco] = useState({});
+
   useEffect(() => {
     Promise.all([
       fetch(
@@ -27,26 +44,124 @@ function NutrientLog(props) {
           ":8080/api/report/getTodaysNutrientIntake/" +
           userId
       ).then((value) => value.json()),
-      fetch("http://" + IpAddress + ":8080/api/food/getFoodRec/" + userId).then(
-        (value) => value.json()
-      ),
+      fetch(
+        "http://" + IpAddress + ":8080/api/food/getFoodRecBeverages/" + userId
+      ).then((value) => value.json()),
+      fetch(
+        "http://" + IpAddress + ":8080/api/food/getFoodRecMain/" + userId
+      ).then((value) => value.json()),
+      fetch(
+        "http://" +
+          IpAddress +
+          ":8080/api/nutrient_intake_recommendation/getLatestRec/" +
+          userId
+      ).then((value) => value.json()),
     ])
       .then((value) => {
         setNutri(value[0]);
-        setReco(value[1]);
+        setDrinks(value[1]);
+        setMains(value[2]);
+        setReco(value[3]);
       })
       .catch((err) => {
+        setNutri({
+          calciumAmount: 0,
+          calorieAmount: 0,
+          carbohydrateAmount: 0,
+          potassiumAmount: 0,
+          proteinAmount: 0,
+          sodiumAmount: 0,
+          sugarAmount: 0,
+          vitaminAAmount: 0,
+          vitaminB2Amount: 0,
+          vitaminCAmount: 0,
+          vitaminDAmount: 0,
+          zincAmount: 0,
+        });
         console.log("An error occurred:", err);
       });
   }, []);
-  if (reco.length != 0) {
-    setGotReco(true);
-  }
 
   return (
     <View style={styles.container}>
+      <Modal
+        visible={clicked}
+        transparent={true}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.detailsContainer}>
+            <View style={styles.closeButton}>
+              <Pressable
+                onPress={() => setClicked(false)}
+                style={styles.closeButton}
+              >
+                <Entypo name="cross" style={{ fontSize: 30 }} />
+              </Pressable>
+            </View>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 23,
+                paddingLeft: 20,
+                textDecorationLine: "underline",
+              }}
+            >
+              Detailed Nutrients:
+            </Text>
+            <View style={{ paddingHorizontal: 15, paddingTop: 20 }}>
+              {delete reco.date}
+              {Object.keys(reco).map((item, i) => {
+                const num = Object.values(reco);
+                const todayNum = Object.values(nutri);
+                if (todayNum[i] > num[i]) {
+                  return (
+                    <View key={i} style={styles.row}>
+                      <Text>{item.replace("Amount", "")}:</Text>
+                      <Text style={{ fontWeight: "bold", color: "red" }}>
+                        {todayNum[i]}/{num[i]}
+                      </Text>
+                    </View>
+                  );
+                } else {
+                  if (item == "vitaminB2Amount") {
+                    return (
+                      <View key={i} style={styles.row}>
+                        <Text>{item.replace("Amount", "")}:</Text>
+                        <Text style={{ fontWeight: "bold" }}>0/{num[i]}</Text>
+                      </View>
+                    );
+                  } else {
+                    return (
+                      <View key={i} style={styles.row}>
+                        <Text>{item.replace("Amount", "")}:</Text>
+                        <Text style={{ fontWeight: "bold" }}>
+                          {todayNum[i]}/{num[i]}
+                        </Text>
+                      </View>
+                    );
+                  }
+                }
+              })}
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View elevation={5} style={styles.graphContainer}>
         <DropDownPicker
+          style={{
+            backgroundColor: "transparent",
+            borderColor: "black",
+            borderRadius: 30,
+          }}
+          dropDownContainerStyle={{
+            borderColor: "black",
+            backgroundColor: "white",
+            borderRadius: 30,
+          }}
           multiple={true}
           max={4}
           open={open}
@@ -55,45 +170,45 @@ function NutrientLog(props) {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
-          containerStyle={styles.dropDownContainer}
+          placeholder="Select nutrients"
           onChangeValue={() => {
             var newData = [];
             value.map((item) => {
               switch (item) {
-                case "Calcium":
+                case "Calcium/mg":
                   newData.push(nutri.calciumAmount);
                   break;
-                case "Calorie":
+                case "Calorie/kcal":
                   newData.push(nutri.calorieAmount);
                   break;
-                case "Potassium":
+                case "Potassium/mg":
                   newData.push(nutri.potassiumAmount);
                   break;
-                case "Protein":
+                case "Protein/g":
                   newData.push(nutri.proteinAmount);
                   break;
-                case "VitaminB2":
+                case "VitaminB2/mg":
                   newData.push(nutri.vitaminB2Amount);
                   break;
-                case "VitaminA":
+                case "VitaminA/mcg":
                   newData.push(nutri.vitaminAAmount);
                   break;
-                case "VitaminC":
+                case "VitaminC/mg":
                   newData.push(nutri.vitaminCAmount);
                   break;
-                case "VitaminD":
+                case "VitaminD/iu":
                   newData.push(nutri.vitaminDAmount);
                   break;
-                case "Sugar":
+                case "Sugar/g":
                   newData.push(nutri.sugarAmount);
                   break;
-                case "Sodium":
+                case "Sodium/mg":
                   newData.push(nutri.sodiumAmount);
                   break;
-                case "Zinc":
+                case "Zinc/mg":
                   newData.push(nutri.zincAmount);
                   break;
-                case "Carbs":
+                case "Carbs/g":
                   newData.push(nutri.carbohydrateAmount);
                   break;
               }
@@ -134,39 +249,138 @@ function NutrientLog(props) {
       </View>
 
       <View elevation={5} style={styles.recoContainer}>
-        <Text style={styles.title}>Suggested Food For You</Text>
-        <ScrollView
-          horizontal={true}
-          contentContainerStyle={styles.scrollContainer}
+        <View
+          style={{ flexDirection: "row", alignItems: "center", paddingTop: 15 }}
         >
-          {gotReco &&
-            reco.map((item, i) => {
-              return (
-                <View style={styles.imgtxt} key={i}>
-                  <MaterialCommunityIcons name="cup" style={styles.recoImage} />
-                  <Text key={i} style={{ fontWeight: "bold" }}>
-                    {item.food_name}
-                  </Text>
-                </View>
-              );
-            })}
-          {!gotReco && (
-            <View style={{ justifyContent: "center" }}>
-              <Text style={{ fontWeight: "bold" }}>
-                You have exceeded one or more nutrient levels, try to eat
-                healthier tomorrow!
-              </Text>
-            </View>
+          <Text style={styles.title}>Suggested Items</Text>
+          {mains.length != 0 && (
+            <DropDownPicker
+              open={open2}
+              value={value2}
+              items={items2}
+              setOpen={setOpen2}
+              setValue={setValue2}
+              setItems={setItems2}
+              placeholder="Mains/Drinks"
+              style={{
+                backgroundColor: "transparent",
+                borderColor: "black",
+                borderRadius: 30,
+                width: "31%",
+                marginLeft: 40,
+              }}
+              dropDownContainerStyle={{
+                borderColor: "black",
+                backgroundColor: "white",
+                borderRadius: 30,
+                width: "31%",
+                marginLeft: 40,
+              }}
+            />
           )}
-        </ScrollView>
+        </View>
+
+        {mains.length != 0 && (
+          <ScrollView
+            horizontal={true}
+            contentContainerStyle={styles.scrollContainer}
+          >
+            {mains.length != 0 &&
+              value2 == "mains" &&
+              mains.map((item, i) => {
+                return (
+                  <View style={styles.imgtxt} key={i}>
+                    <MaterialCommunityIcons
+                      name="food-takeout-box"
+                      style={styles.recoImage}
+                    />
+                    <Text key={i} style={{ fontWeight: "bold" }}>
+                      {item.food_name}
+                    </Text>
+                  </View>
+                );
+              })}
+            {drinks.length != 0 &&
+              value2 == "drinks" &&
+              drinks.map((item, i) => {
+                return (
+                  <View style={styles.imgtxt} key={i}>
+                    <MaterialCommunityIcons
+                      name="cup"
+                      style={styles.recoImage}
+                    />
+                    <Text key={i} style={{ fontWeight: "bold" }}>
+                      {item.food_name}
+                    </Text>
+                  </View>
+                );
+              })}
+          </ScrollView>
+        )}
+        {mains.length == 0 && nutri.calorieAmount != 0 && (
+          <View
+            style={{
+              paddingTop: 10,
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ paddingBottom: 10 }}>
+              You have exceeded one or more nutrient levels, try to eat
+              healthier tomorrow!
+            </Text>
+            <Pressable
+              onPress={() => {
+                setClicked(!clicked);
+              }}
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed ? "#7f7f7f" : "white",
+                },
+              ]}
+            >
+              <Text style={styles.moreInfoButton}>See more</Text>
+            </Pressable>
+          </View>
+        )}
+        {mains.length == 0 && nutri.calorieAmount == 0 && (
+          <View
+            style={{
+              paddingTop: 20,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontWeight: "bold" }}>
+              You have not logged a meal yet!
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  closeButton: {
+    alignItems: "flex-end",
+    paddingTop: 5,
+    paddingRight: 5,
+  },
   container: {
     paddingTop: 45,
+  },
+  detailsContainer: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    width: 375,
+    height: "88%",
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 1,
+    },
   },
   graphContainer: {
     backgroundColor: "white",
@@ -185,8 +399,16 @@ const styles = StyleSheet.create({
   },
   imgtxt: {
     alignItems: "center",
-    width: 300,
     borderRadius: 25,
+    width: 150,
+  },
+  modalContainer: {
+    paddingTop: 110,
+    alignItems: "center",
+    flex: 1,
+  },
+  moreInfoButton: {
+    textDecorationLine: "underline",
   },
   reco: {
     flexDirection: "row",
@@ -198,7 +420,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: 350,
     height: 150,
-    padding: 20,
+    paddingHorizontal: 20,
     marginBottom: 30,
     shadowColor: "#000000",
     shadowOpacity: 0.8,
@@ -211,9 +433,15 @@ const styles = StyleSheet.create({
   recoImage: {
     fontSize: 50,
   },
-  scrollContainer: {
+  row: {
+    flexDirection: "row",
     justifyContent: "space-between",
-    width: 900,
+    paddingHorizontal: 10,
+    paddingBottom: 20,
+  },
+  scrollContainer: {
+    width: 550,
+    justifyContent: "space-around",
   },
   title: {
     fontSize: 20,

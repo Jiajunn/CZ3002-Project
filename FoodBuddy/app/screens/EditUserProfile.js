@@ -116,7 +116,7 @@ const EditUserProfile = () => {
         </View>
         <View style={{ paddingBottom: 25, height: "80%", width: "100%" }}>
           <ScrollView
-            style={{ paddingTop: 30 }}
+            style={{ paddingTop: 10 }}
             contentContainerStyle={{ alignItems: "center" }}
           >
             <View>
