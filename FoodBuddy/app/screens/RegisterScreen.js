@@ -35,19 +35,20 @@ export default function RegisterScreen(props) {
   };
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    const test = currentDate.toISOString().slice(0, 10);
+    const curDateString = currentDate.toISOString().slice(0, 10);
     setDate(currentDate);
-    setUser((prev) => ({ ...prev, date: test }));
+    setUser((prev) => ({ ...prev, date: curDateString }));
     console.log(user);
+    setShow(false);
   };
 
   const showMode = (currentMode) => {
     if (Platform.OS === "android") {
-      setShow(false);
+      setShow(true);
     }
     setMode(currentMode);
   };
