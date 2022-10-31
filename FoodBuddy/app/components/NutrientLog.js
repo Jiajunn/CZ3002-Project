@@ -216,12 +216,21 @@ function NutrientLog(props) {
             setData(newData);
           }}
         />
-        <Text style={[styles.title, { marginTop: 20 }]}>
-          Total Nutrient Intake
-        </Text>
+        <View
+          style={{
+            marginVertical: 10,
+            marginLeft: 15,
+            marginRight: 15,
+            padding: 10,
+            backgroundColor: "#D9D9D9",
+          }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            Total Nutrient Intake
+          </Text>
+        </View>
 
         <BarChart
-          style={styles.chart}
           data={{
             labels: value,
             datasets: [
@@ -231,7 +240,7 @@ function NutrientLog(props) {
             ],
           }}
           width={300}
-          height={300}
+          height={290}
           chartConfig={{
             backgroundColor: "#ffffff",
             backgroundGradientFrom: "#ffffff",
@@ -250,7 +259,7 @@ function NutrientLog(props) {
 
       <View elevation={5} style={styles.recoContainer}>
         <View
-          style={{ flexDirection: "row", alignItems: "center", paddingTop: 15 }}
+          style={{ flexDirection: "row", alignItems: "center", paddingTop: 10 }}
         >
           <Text style={styles.title}>Suggested Items</Text>
           {mains.length != 0 && (
@@ -320,7 +329,7 @@ function NutrientLog(props) {
         {mains.length == 0 && nutri.calorieAmount != 0 && (
           <View
             style={{
-              paddingTop: 10,
+              paddingTop: 20,
               alignItems: "center",
             }}
           >
@@ -345,7 +354,7 @@ function NutrientLog(props) {
         {mains.length == 0 && nutri.calorieAmount == 0 && (
           <View
             style={{
-              paddingTop: 20,
+              paddingTop: 40,
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -399,8 +408,7 @@ const styles = StyleSheet.create({
   },
   imgtxt: {
     alignItems: "center",
-    borderRadius: 25,
-    width: 150,
+    width: 200,
   },
   modalContainer: {
     paddingTop: 110,
@@ -440,8 +448,9 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   scrollContainer: {
-    width: 550,
+    width: 600,
     justifyContent: "space-around",
+    paddingLeft: 10,
   },
   title: {
     fontSize: 20,

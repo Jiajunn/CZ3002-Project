@@ -35,7 +35,7 @@ export default function RegisterScreen(props) {
   };
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -43,7 +43,7 @@ export default function RegisterScreen(props) {
     setDate(currentDate);
     setUser((prev) => ({ ...prev, date: curDateString }));
     console.log(user);
-    setShow(false);
+    setShow(true);
   };
 
   const showMode = (currentMode) => {

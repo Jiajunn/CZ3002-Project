@@ -1,20 +1,15 @@
 import React from "react";
 import { useState, useContext } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView
-} from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Card } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import { AuthContext } from "../contexts/AuthContext";
 import PerformanceChart from "../components/PerformanceChart";
 
 export default function PerformanceEvalScreen(props) {
-  const {userId} = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
   const [show, setShow] = useState(false);
-  const [days, setDays] = useState({ healthy: 0, unhealthy: 0});
+  const [days, setDays] = useState({ healthy: 0, unhealthy: 0 });
   const [chartWidth, setChartWidth] = useState(null);
   const [labelArray, setLabelArray] = useState(null);
   const [dataArray, setDataArray] = useState(null);
@@ -23,7 +18,7 @@ export default function PerformanceEvalScreen(props) {
   const [periodValue, setPeriodValue] = useState(null);
   const [periodItems, setPeriodItems] = useState([
     { label: "Last Month", value: "Last Month" },
-    { label: "This Month", value:  "This Month"},
+    { label: "This Month", value: "This Month" },
     { label: "Last 7 days", value: "Last 7 Days" },
   ]);
   const [open, setOpen] = useState(false);
@@ -40,92 +35,95 @@ export default function PerformanceEvalScreen(props) {
     { label: "VitaminB2", value: "VitaminB2" },
     { label: "VitaminC", value: "VitaminC" },
     { label: "VitaminD", value: "VitaminD" },
-    { label: "Zinc", value: "Zinc" }
+    { label: "Zinc", value: "Zinc" },
   ]);
 
   //functions
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate();
-  }
+  };
   const getStrReco = (curStr) => {
-    switch(curStr){
-      case 'Calorie':
-        return 'calorieAmount';
-      case 'Calcium':
-        return 'calciumAmount';
-      case 'Carbohydrates':
-        return 'carbohydrateAmount';
-      case 'Potassium':
-        return 'potassiumAmount';
-      case 'Protein':
-        return 'proteinAmount';
-      case 'Sodium':
-        return 'sodiumAmount';
-      case 'Sugar':
-        return 'sugarAmount';
-      case 'VitaminA':
-        return 'vitaminAAmount';
-      case 'VitaminB2':
-        return 'vitaminB2Amount';
-      case 'VitaminC':
-        return 'vitaminCAmount';
-      case 'VitaminD':
-        return 'vitaminDAmount';
-      case 'Zinc':
-        return 'zincAmount';
+    switch (curStr) {
+      case "Calorie":
+        return "calorieAmount";
+      case "Calcium":
+        return "calciumAmount";
+      case "Carbohydrates":
+        return "carbohydrateAmount";
+      case "Potassium":
+        return "potassiumAmount";
+      case "Protein":
+        return "proteinAmount";
+      case "Sodium":
+        return "sodiumAmount";
+      case "Sugar":
+        return "sugarAmount";
+      case "VitaminA":
+        return "vitaminAAmount";
+      case "VitaminB2":
+        return "vitaminB2Amount";
+      case "VitaminC":
+        return "vitaminCAmount";
+      case "VitaminD":
+        return "vitaminDAmount";
+      case "Zinc":
+        return "zincAmount";
     }
-  }
+  };
 
   const getDates = () => {
     let today = new Date();
-    let startDate = new Date(); 
-    switch(periodValue){
+    let startDate = new Date();
+    switch (periodValue) {
       case "Last 7 Days":
-        startDate.setDate(startDate.getDate()-7);
+        startDate.setDate(startDate.getDate() - 7);
         break;
       case "This Month":
         startDate.setDate(1);
         break;
       case "Last Month":
-        startDate = new Date(today.getFullYear(), today.getMonth()-1, 2);
+        startDate = new Date(today.getFullYear(), today.getMonth() - 1, 2);
         today = new Date(today.getFullYear(), today.getMonth(), 1);
         break;
     }
-    return {startDate, today}; 
-  }
+    return { startDate, today };
+  };
   const setArrays = (nutrientReco, userHistory) => {
-    const {startDate, today} = getDates(); 
+    const { startDate, today } = getDates();
     let daysInMon = 0;
-    let res = 0
+    let res = 0;
     let data = [];
     let recArr = [];
     let labels = [];
     let day = 0;
     const nutrient = nutrientReco[getStrReco(value)];
     let unhealthy = 0;
-    switch(periodValue){
+    switch (periodValue) {
       case "Last 7 Days":
         setChartWidth(285);
-        daysInMon = daysInMonth(startDate.getMonth()+1, startDate.getFullYear());
-        day = startDate.getDate() +1;
+        daysInMon = daysInMonth(
+          startDate.getMonth() + 1,
+          startDate.getFullYear()
+        );
+        day = startDate.getDate() + 1;
         for (let i = 0; i < 7; i++) {
-          (day + i) % daysInMon == 0 ? labels.push(daysInMon) : labels.push((day + i) % daysInMon);
+          (day + i) % daysInMon == 0
+            ? labels.push(daysInMon)
+            : labels.push((day + i) % daysInMon);
           recArr.push(nutrient);
         }
-        for (let i = 0; i < 7; i++){
+        for (let i = 0; i < 7; i++) {
           let resultLength = userHistory.length;
-          if(res > resultLength){
+          if (res > resultLength) {
             data.push(0);
-          }
-          else{
-            if(labels[i] == Number(userHistory[res].date.slice(-2))){
+          } else {
+            if (labels[i] == Number(userHistory[res].date.slice(-2))) {
               data.push(userHistory[res].nutrientAmount);
-              if(userHistory[res].nutrientAmount > nutrient){
+              if (userHistory[res].nutrientAmount > nutrient) {
                 unhealthy++;
               }
-              res++; 
-            }
-            else{
+              res++;
+            } else {
               data.push(0);
             }
           }
@@ -134,54 +132,56 @@ export default function PerformanceEvalScreen(props) {
         break;
       case "Last Month":
         setChartWidth(800);
-        daysInMon = daysInMonth(startDate.getMonth()+1, startDate.getFullYear());
+        daysInMon = daysInMonth(
+          startDate.getMonth() + 1,
+          startDate.getFullYear()
+        );
         day = startDate.getDate();
         for (let i = 1; i <= daysInMon; i++) {
           labels.push(i);
           recArr.push(nutrient);
         }
-        for (let i = 0; i < daysInMon; i++){
+        for (let i = 0; i < daysInMon; i++) {
           let resultLength = userHistory.length;
-          if(res > resultLength){
+          if (res > resultLength) {
             data.push(0);
-          }
-          else{
-            if(labels[i] == Number(userHistory[res].date.slice(-2))){
+          } else {
+            if (labels[i] == Number(userHistory[res].date.slice(-2))) {
               data.push(userHistory[res].nutrientAmount);
-              if(userHistory[res].nutrientAmount > nutrient){
+              if (userHistory[res].nutrientAmount > nutrient) {
                 unhealthy++;
               }
-              res++; 
-            }
-            else{
+              res++;
+            } else {
               data.push(0);
             }
           }
         }
         break;
       case "This Month":
-        daysInMon = daysInMonth(startDate.getMonth()+1, startDate.getFullYear());
-        const width = daysInMon * 26; 
+        daysInMon = daysInMonth(
+          startDate.getMonth() + 1,
+          startDate.getFullYear()
+        );
+        const width = daysInMon * 26;
         setChartWidth(width < 230 ? 230 : width);
         day = today.getDate();
         for (let i = 1; i <= Number(day); i++) {
           labels.push(i);
           recArr.push(nutrient);
         }
-        for (let i = 0; i < Number(day); i++){
+        for (let i = 0; i < Number(day); i++) {
           let resultLength = userHistory.length;
-          if(res > resultLength){
+          if (res > resultLength) {
             data.push(0);
-          }
-          else{
-            if(labels[i] == Number(userHistory[res].date.slice(-2))){
+          } else {
+            if (labels[i] == Number(userHistory[res].date.slice(-2))) {
               data.push(userHistory[res].nutrientAmount);
-              if(userHistory[res].nutrientAmount > nutrient){
+              if (userHistory[res].nutrientAmount > nutrient) {
                 unhealthy++;
               }
-              res++; 
-            }
-            else{
+              res++;
+            } else {
               data.push(0);
             }
           }
@@ -189,59 +189,78 @@ export default function PerformanceEvalScreen(props) {
         break;
     }
     const healthy = daysInMon - unhealthy;
-    setDays({healthy, unhealthy});
+    setDays({ healthy, unhealthy });
     setRecommendedArray(recArr);
-    setLabelArray(labels)
+    setLabelArray(labels);
     setDataArray(data);
     setShow(true);
-  }
+  };
   const onChangeField = () => {
     setShow(false);
-    const {startDate, today} = getDates(); 
-    if(value!= null && periodValue!= null){
-      const start = startDate.toISOString().slice(0,10);
-      const end = today.toISOString().slice(0,10);
-      fetchData(start,end);
+    const { startDate, today } = getDates();
+    if (value != null && periodValue != null) {
+      const start = startDate.toISOString().slice(0, 10);
+      const end = today.toISOString().slice(0, 10);
+      fetchData(start, end);
     }
-  }
-  const fetchData = (start, end) => { 
+  };
+  const fetchData = (start, end) => {
     Promise.all([
-      fetch(`http://${IpAddress}:8080/api/nutrient_intake_recommendation/getLatestRec/${userId}`),
-      fetch(`http://${IpAddress}:8080/api/report/getHistorical${value}Data/${userId}/${start}/${end}`)
+      fetch(
+        `http://${IpAddress}:8080/api/nutrient_intake_recommendation/getLatestRec/${userId}`
+      ),
+      fetch(
+        `http://${IpAddress}:8080/api/report/getHistorical${value}Data/${userId}/${start}/${end}`
+      ),
     ])
-    .then(([res1, res2]) => {
-      return Promise.all([res1.json(), res2.json()])
-    })
-    .then(([data1, data2]) => {
-      setRecommendedArray(data1);
-      setDataArray(data2);
-      if(data2.length == 0){
-        alert('No meals logged during this period');
-        setChartWidth(null);
-      }
-      else{
-        setArrays(data1, data2)
-      }
-    })
-  }
-  
+      .then(([res1, res2]) => {
+        return Promise.all([res1.json(), res2.json()]);
+      })
+      .then(([data1, data2]) => {
+        setRecommendedArray(data1);
+        setDataArray(data2);
+        if (data2.length == 0) {
+          alert("No meals logged during this period");
+          setChartWidth(null);
+        } else {
+          setArrays(data1, data2);
+        }
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
         <Text style={styles.bannerText}> Perfomance </Text>
       </View>
-      <View style={{ flexDirection: "row", marginTop: 20, marginLeft: 35, zIndex:2}}>
-        <Text style={{ fontSize: 27, fontWeight: "bold", marginTop: 3 }}>
-          {" "}
-          Period:{" "}
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 20,
+          marginLeft: 35,
+          zIndex: 2,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 23,
+            fontWeight: "bold",
+            paddingTop: 10,
+            paddingRight: 40,
+          }}
+        >
+          Period:
         </Text>
         <DropDownPicker
           listMode="SCROLLVIEW"
           style={styles.dropDownStyle}
-          labelStyle={{ color: "white" }}
           placeholder="Select time period"
-          placeholderStyle={{ color: "white" }}
-          containerStyle={{ width: 190}}
+          containerStyle={{ width: 230 }}
+          dropDownContainerStyle={{
+            borderRadius: 30,
+            backgroundColor: "#F3EDED",
+            borderColor: "transparent",
+          }}
           showArrowIcon={true}
           open={openPeriod}
           value={periodValue}
@@ -253,18 +272,34 @@ export default function PerformanceEvalScreen(props) {
           onChangeValue={onChangeField}
         ></DropDownPicker>
       </View>
-      <View style={{ flexDirection: "row", marginTop: 10, marginLeft: 35, zIndex: 1 }}>
-        <Text style={{ fontSize: 27, fontWeight: "bold", marginTop: 3 }}>
-          {" "}
-          Nutrient:{" "}
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 10,
+          marginLeft: 35,
+          zIndex: 1,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 23,
+            fontWeight: "bold",
+            paddingTop: 10,
+            paddingRight: 20,
+          }}
+        >
+          Nutrient:
         </Text>
         <DropDownPicker
           listMode="SCROLLVIEW"
           style={styles.dropDownStyle}
-          labelStyle={{ color: "white" }}
           placeholder="Select type of nutrient"
-          placeholderStyle={{ color: "white" }}
-          containerStyle={{ width: 190}}
+          dropDownContainerStyle={{
+            borderRadius: 30,
+            backgroundColor: "#F3EDED",
+            borderColor: "transparent",
+          }}
+          containerStyle={{ width: 230 }}
           showArrowIcon={true}
           open={open}
           value={value}
@@ -301,13 +336,26 @@ export default function PerformanceEvalScreen(props) {
           }}
         >
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            {" "}
             {value ? value + " Intake" : "Select nutrient type"}
           </Text>
         </View>
-        <ScrollView style={{minHeight:230}} horizontal={true}>
-          {!show && <PerformanceChart labelArray={[]} dataArray={[0]} recommendedArray={[0]} chartWidth={chartWidth}/>}
-          {show && <PerformanceChart labelArray={labelArray} dataArray={dataArray} recommendedArray={recommendedArray} chartWidth={chartWidth}/>}
+        <ScrollView style={{ minHeight: 230 }} horizontal={true}>
+          {!show && (
+            <PerformanceChart
+              labelArray={[]}
+              dataArray={[0]}
+              recommendedArray={[0]}
+              chartWidth={chartWidth}
+            />
+          )}
+          {show && (
+            <PerformanceChart
+              labelArray={labelArray}
+              dataArray={dataArray}
+              recommendedArray={recommendedArray}
+              chartWidth={chartWidth}
+            />
+          )}
         </ScrollView>
       </Card>
       <View>
@@ -357,9 +405,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dropDownStyle: {
-    backgroundColor: "#8F9467",
-    borderRadius: 20,
-    width: 190,
+    backgroundColor: "#F3EDED",
+    borderRadius: 30,
+    width: 230,
     height: 45,
     marginBottom: 20,
     paddingTop: 0,
