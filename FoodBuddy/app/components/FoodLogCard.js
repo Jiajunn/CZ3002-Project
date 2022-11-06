@@ -33,9 +33,7 @@ function FoodLogCard(props) {
               </Pressable>
             </View>
             <View style={{ paddingHorizontal: 15 }}>
-              <Text style={styles.title}>
-                {props.type_of_meal} - {props.date}
-              </Text>
+              <Text style={styles.title}>{props.type_of_meal}</Text>
 
               {props.food.map((item, i) => {
                 return (
@@ -51,9 +49,7 @@ function FoodLogCard(props) {
       </Modal>
 
       <View style={styles.textContainer}>
-        <Text style={styles.title}>
-          {props.type_of_meal} - {props.date}
-        </Text>
+        <Text style={styles.title}>{props.type_of_meal}</Text>
 
         {firstTwo.map((item, i) => {
           return (

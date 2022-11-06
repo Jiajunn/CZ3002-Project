@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Entypo from "react-native-vector-icons/Entypo"
+import Entypo from "react-native-vector-icons/Entypo";
 
 function AddMealScreen(props) {
   const navigation = useNavigation();
@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 10,
     textAlign: "left",
+    fontWeight: "bold",
   },
   textContainer: {
     marginTop: "10%",

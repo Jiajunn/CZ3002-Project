@@ -117,12 +117,55 @@ function NutrientLog(props) {
               {Object.keys(reco).map((item, i) => {
                 const num = Object.values(reco);
                 const todayNum = Object.values(nutri);
+                var unit = " ";
+                switch (item) {
+                  case "carbohydrateAmount":
+                    unit = "g";
+                    break;
+                  case "potassiumAmount":
+                    unit = "mg";
+                    break;
+                  case "vitaminAAmount":
+                    unit = "mcg";
+                    break;
+                  case "sugarAmount":
+                    unit = "g";
+                    break;
+                  case "vitaminDAmount":
+                    unit = "iu";
+                    break;
+                  case "zincAmount":
+                    unit = "mg";
+                    break;
+                  case "calciumAmount":
+                    unit = "mg";
+                    break;
+                  case "vitaminCAmount":
+                    unit = "mg";
+                    break;
+                  case "vitaminB2Amount":
+                    unit = "mg";
+                    break;
+                  case "calorieAmount":
+                    unit = "kcal";
+                    break;
+                  case "proteinAmount":
+                    unit = "g";
+                    break;
+                  case "sodiumAmount":
+                    unit = "mg";
+                    break;
+                }
                 if (todayNum[i] > num[i]) {
                   return (
                     <View key={i} style={styles.row}>
-                      <Text>{item.replace("Amount", "")}:</Text>
+                      <Text>
+                        {item.replace("Amount", "").charAt(0).toUpperCase() +
+                          item.replace("Amount", "").slice(1)}
+                        :
+                      </Text>
                       <Text style={{ fontWeight: "bold", color: "red" }}>
-                        {todayNum[i]}/{num[i]}
+                        {todayNum[i]} / {num[i]} {unit}
                       </Text>
                     </View>
                   );
@@ -130,16 +173,26 @@ function NutrientLog(props) {
                   if (item == "vitaminB2Amount") {
                     return (
                       <View key={i} style={styles.row}>
-                        <Text>{item.replace("Amount", "")}:</Text>
-                        <Text style={{ fontWeight: "bold" }}>0/{num[i]}</Text>
+                        <Text>
+                          {item.replace("Amount", "").charAt(0).toUpperCase() +
+                            item.replace("Amount", "").slice(1)}
+                          :
+                        </Text>
+                        <Text style={{ fontWeight: "bold" }}>
+                          0 / {num[i]} {unit}
+                        </Text>
                       </View>
                     );
                   } else {
                     return (
                       <View key={i} style={styles.row}>
-                        <Text>{item.replace("Amount", "")}:</Text>
+                        <Text>
+                          {item.replace("Amount", "").charAt(0).toUpperCase() +
+                            item.replace("Amount", "").slice(1)}
+                          :
+                        </Text>
                         <Text style={{ fontWeight: "bold" }}>
-                          {todayNum[i]}/{num[i]}
+                          {todayNum[i]} / {num[i]} {unit}
                         </Text>
                       </View>
                     );

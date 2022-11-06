@@ -95,7 +95,7 @@ function FoodLog() {
       .catch((err) => {
         console.log("No food added today maybe? orr", err);
       });
-  }, []);
+  });
 
   return (
     <View style={styles.container}>

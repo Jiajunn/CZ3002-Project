@@ -231,7 +231,7 @@ export default function PerformanceEvalScreen(props) {
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
-        <Text style={styles.bannerText}> Perfomance </Text>
+        <Text style={styles.bannerText}> Performance </Text>
       </View>
       <View
         style={{
