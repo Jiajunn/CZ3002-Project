@@ -7,7 +7,6 @@ const PerformanceChart = ({
   recommendedArray,
   chartWidth,
 }) => {
-  console.log(dataArray);
   return (
     <View>
       <LineChart

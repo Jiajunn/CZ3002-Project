@@ -76,7 +76,7 @@ export default function PerformanceEvalScreen(props) {
     let startDate = new Date();
     switch (periodValue) {
       case "Last 7 Days":
-        startDate.setDate(startDate.getDate() - 7);
+        startDate.setDate(startDate.getDate() - 6);
         break;
       case "This Month":
         startDate.setDate(1);
@@ -105,7 +105,7 @@ export default function PerformanceEvalScreen(props) {
           startDate.getMonth() + 1,
           startDate.getFullYear()
         );
-        day = startDate.getDate() + 1;
+        day = startDate.getDate();
         for (let i = 0; i < 7; i++) {
           (day + i) % daysInMon == 0
             ? labels.push(daysInMon)
